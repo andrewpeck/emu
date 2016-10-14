@@ -605,6 +605,9 @@ private:
   void ALCT_TMB_communication(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
   void ALCT_TMB_Loopback(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
   void TMB_to_ALCT_walking_ones(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
+  void SetGEMdelay (xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void SetGEMPosneg (xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void SetGEMintdelay (xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   //
   // synchronization functions looping over CSC's
   void MeasureL1AsAndDAVsForCrate(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 

@@ -2535,8 +2535,9 @@ public:
   // 
   inline int GetGemARxClockDelay() { return gemA_rx_clock_delay_; }
   inline int GetGemBRxClockDelay() { return gemB_rx_clock_delay_; }
-  inline int GetGemRxClockDelay() { assert(GetHardwareVersion()==2 && GetGemEnabled()); return gem_rx_clock_delay_; 
-  }
+  inline int GetGemRxClockDelay()  { assert(GetHardwareVersion()==2 && GetGemEnabled()); return gem_rx_clock_delay_; } 
+  inline int GetReadGemRxClockDelay()  { return read_gem_rx_clock_delay_ ;}
+  inline int GetReadGemRxPosNeg(){return read_gem_rx_posneg_;}
   //
   inline void SetGemRxPosNeg  (int gem_rx_posneg)  { gem_rx_posneg_  = gem_rx_posneg;}
   inline void SetGemARxPosNeg (int gemA_rx_posneg) { gemA_rx_posneg_ = gemA_rx_posneg;}

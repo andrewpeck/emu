@@ -17,6 +17,7 @@
 namespace emu {
   namespace pc {
 
+
 typedef std::vector<CFEB>::iterator CFEBItr;
 
 const std::string       CFEB_FIRMWARE_FILENAME = "cfeb/cfeb_pro.svf";
@@ -524,6 +525,9 @@ EmuPeripheralCrateConfig::EmuPeripheralCrateConfig(xdaq::ApplicationStub * s): E
   xgi::bind(this,&EmuPeripheralCrateConfig::CFEBTimingSimpleScan, "CFEBTimingSimpleScan");
   xgi::bind(this,&EmuPeripheralCrateConfig::RatTmbTiming, "RatTmbTiming");
   xgi::bind(this,&EmuPeripheralCrateConfig::RpcRatTiming, "RpcRatTiming");
+  xgi::bind(this,&EmuPeripheralCrateConfig::SetGEMdelay, "SetGEMdelay");
+  xgi::bind(this,&EmuPeripheralCrateConfig::SetGEMPosneg, "SetGEMPosneg");
+  xgi::bind(this,&EmuPeripheralCrateConfig::SetGEMintdelay, "SetGEMintdelay");
   //
   //----------------------------------------------
   // Bind synchronization methods
@@ -5420,6 +5424,43 @@ void EmuPeripheralCrateConfig::ChamberTests(xgi::Input * in, xgi::Output * out )
   *out << cgicc::br();
   //
   //*out << cgicc::table() << std::endl;
+
+
+
+  /////in progress/////
+  *out << cgicc::br(); 
+  std::string SetGEMdelay = toolbox::toString("/%s/SetGEMdelay",getApplicationDescriptor()->getURN().c_str());
+  *out << cgicc::form().set("method","GET").set("action",SetGEMdelay) << std::endl ;
+  *out << "GEM delay: " << std::endl;
+  thisTMB->ReadRegister(phaser_gem_rxd_adr);
+  thisTMB->SetGemRxPosNeg(thisTMB->GetReadGemRxPosNeg());
+  sprintf(buf,"%d",thisTMB->GetReadGemRxClockDelay());
+  *out << cgicc::input().set("type","text").set("value",buf).set("name","GEM_delay")<<std::endl;
+  *out << cgicc::input().set("type","submit").set("value","Set GEM delay value") << std::endl ;
+  *out << cgicc::form() << std::endl ;
+
+  std::string SetGEMPosneg = toolbox::toString("/%s/SetGEMPosneg",getApplicationDescriptor()->getURN().c_str());
+  *out << cgicc::form().set("method","GET").set("action",SetGEMPosneg) << std::endl ;
+  *out << "GEM posneg: " << std::endl;
+  thisTMB->ReadRegister(phaser_gem_rxd_adr);
+  thisTMB->SetGemRxClockDelay(thisTMB->GetReadGemRxClockDelay());
+  sprintf(buf,"%d",thisTMB->GetReadGemRxPosNeg());
+  *out << cgicc::input().set("type","text").set("value",buf).set("name","GEM_posneg")<<std::endl;
+  *out << cgicc::input().set("type","submit").set("value","Set GEM posneg value") << std::endl ;
+  *out << cgicc::form() << std::endl ;  
+  
+  std::string SetGEMintdelay = toolbox::toString("/%s/SetGEMintdelay",getApplicationDescriptor()->getURN().c_str());
+  *out << cgicc::form().set("method","GET").set("action",SetGEMintdelay) << std::endl ;
+  *out << "GEM rxd  int delay: " << std::endl;
+  thisTMB->ReadRegister(gem_cfg_adr); 
+  sprintf(buf,"%d",thisTMB->GetReadGemRxdIntDelay ());
+  *out << cgicc::input().set("type","text").set("value",buf).set("name","GEM_rxd_delay")<<std::endl;
+  *out << cgicc::input().set("type","submit").set("value","Set GEM rxd int delay value") << std::endl ;
+  *out << cgicc::form() << std::endl ;
+  ////////////////////////////////////////
+
+
+
   *out << cgicc::fieldset();
   //
   //
@@ -12778,7 +12819,142 @@ std::string EmuPeripheralCrateConfig::GetFormString(const std::string& form_elem
   return form_value;
 }
 
-  //
+////////in progress2//////////
+void   EmuPeripheralCrateConfig::SetGEMPosneg(xgi::Input * in, xgi::Output * out )
+throw (xgi::exception::Exception)
+{   
+    cgicc::Cgicc cgi(in);
+    cgicc::form_iterator name = cgi.getElement("tmb");
+    int tmb=0;
+    if(name != cgi.getElements().end()) 
+    {
+        tmb = cgi["tmb"]->getIntegerValue();
+        std::cout << "TMB " << tmb << std::endl;
+        TMB_ = tmb;
+    } else {
+        std::cout << "Not tmb" << std::endl ;
+        tmb = TMB_;
+    }
+    //
+    TMB * thisTMB = tmbVector[tmb];
+
+    if(thisTMB)
+    {
+        cgicc::form_iterator name2 = cgi.getElement("GEM_posneg");
+        int GEMposneg=-1;
+        if(name2 != cgi.getElements().end())
+        {
+            GEMposneg=strtol(cgi["GEM_posneg"]->getValue().c_str(),NULL,10);
+        }
+        if (GEMposneg!= 0 && GEMposneg!=1)  
+        {
+            std::cout<<"Given value for GEM posneg delay is out of range";
+        }          
+        else if (GEMposneg!=(-1))
+        {
+            thisTMB->SetGemRxPosNeg(GEMposneg);
+            thisTMB->WriteRegister(phaser_gem_rxd_adr);
+            std::cout << "posneg changed to"<<GEMposneg<<endl;
+        }
+    }
+    else
+    {
+        std::cout << "No TMB found!" << std::endl;
+    }
+    this->ChamberTests(in,out);
+}
+
+void   EmuPeripheralCrateConfig::SetGEMintdelay(xgi::Input * in, xgi::Output * out )
+throw (xgi::exception::Exception)
+{
+    cgicc::Cgicc cgi(in);
+    cgicc::form_iterator name = cgi.getElement("tmb");
+    int tmb=0;
+    if(name != cgi.getElements().end()) 
+    {
+        tmb = cgi["tmb"]->getIntegerValue();
+        std::cout << "TMB " << tmb << std::endl;
+        TMB_ = tmb;
+    } else {
+        std::cout << "Not tmb" << std::endl ;
+        tmb = TMB_;
+    }
+    //
+    TMB * thisTMB = tmbVector[tmb];
+
+    if(thisTMB)
+    {
+        cgicc::form_iterator name2 = cgi.getElement("GEM_rxd_delay");
+        int GEMrxInt=-1;
+        if(name2 != cgi.getElements().end())
+        {
+            GEMrxInt=strtol(cgi["GEM_rxd_delay"]->getValue().c_str(),NULL,10);
+        }
+        if (GEMrxInt<0||GEMrxInt>15) 
+        {
+            std::cout<<"Given value for GEM rx int delay is out of range";
+        }          
+        else if (GEMrxInt!= -1)
+        {
+            thisTMB->SetGemRxdIntDelay(GEMrxInt);
+            thisTMB->WriteRegister(gem_cfg_adr);
+        }
+        std::cout << "this TMB (rxInt)";
+    }
+    else
+    {
+        std::cout << "No TMB found!" << std::endl;
+    }
+    this->ChamberTests(in,out);
+
+}
+
+void   EmuPeripheralCrateConfig::SetGEMdelay(xgi::Input * in, xgi::Output * out )
+throw (xgi::exception::Exception)
+{
+    cgicc::Cgicc cgi(in);
+    cgicc::form_iterator name = cgi.getElement("tmb");
+    int tmb=0;
+    if(name != cgi.getElements().end()) 
+    {
+        tmb = cgi["tmb"]->getIntegerValue();
+        std::cout << "TMB " << tmb << std::endl;
+        TMB_ = tmb;
+    } else {
+        std::cout << "Not tmb" << std::endl ;
+        tmb = TMB_;
+    }
+    //
+    TMB * thisTMB = tmbVector[tmb];
+
+    if(thisTMB)
+    {
+        cgicc::form_iterator name2 = cgi.getElement("GEM_delay");
+        int GEMdelay=-1;
+        if(name2 != cgi.getElements().end())
+        {
+            GEMdelay=strtol(cgi["GEM_delay"]->getValue().c_str(),NULL,10);
+        }
+        //TODO: check the parameter for Gem delay        
+        if (GEMdelay<0||GEMdelay>26) 
+        {
+            std::cout<<"Given value for GEM delay is out of range";
+        }        
+        if (GEMdelay!= -1)
+        {
+            thisTMB->SetGemRxClockDelay(GEMdelay);
+            thisTMB->WriteRegister(phaser_gem_rxd_adr);
+            thisTMB->FirePhaser(phaser_gem_rxd_adr);
+        }
+
+    }
+    else
+    {
+        std::cout << "No TMB found!" << std::endl;
+    }
+    this->ChamberTests(in,out);
+}
+//////////////////////////////
   void EmuPeripheralCrateConfig::ReadTMBRegister(xgi::Input * in, xgi::Output * out ) 
     throw (xgi::exception::Exception)
   {

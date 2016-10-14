@@ -3432,7 +3432,7 @@ bool TMB::ReadTMBRawhits_(){
   (*MyOutput_) << std::endl;
   (*MyOutput_) << "TMB Raw Data Packet Dump" << std::endl;
   (*MyOutput_) << std::endl;
-  for(int i=0; i<tmb_data_.size(); i++) {
+  for(unsigned int i=0; i<tmb_data_.size(); i++) {
     (*MyOutput_) << " -> Frame = "  << std::setfill(' ') << std::dec << std::setw(3) << i
                  <<   ", Data = 0x" << std::setfill('0') << std::hex << std::setw(4) << tmb_data_[i].to_ulong()
                  << std::endl;
@@ -3861,14 +3861,18 @@ void TMB::GEMRawhits() {
         status &= ~(0x3 << 3);                     
         status |= (igem & 0x3) << 3;                
         WriteRegister (gem_debug_fifo_ctrl_adr, status); 
-
+        (*MyOutput_) <<
+        "|-------+-----+-------+-------+-------+-------+----------------|"<<std::endl <<
+        "| Fiber |  BX | clst0 | clst1 | clst2 | clst3 |  data packet   |"<<std::endl <<
+        "|-------+-----+-------+-------+-------+-------+----------------|"<<std::endl;
     for (int ibx=0; ibx<16; ibx++) {
         status = (unsigned short) ReadRegister(gem_debug_fifo_ctrl_adr); 
         status &= ~(0x7FF << 5);                   
         status |= (ibx & 0x7FF) << 5;              
         WriteRegister (gem_debug_fifo_ctrl_adr, status); 
 
-        (*MyOutput_) << std::setfill(' ') << "gem" << igem << " bx" << std::dec << std::setw(3) << ibx << ": "; 
+        (*MyOutput_) << std::setfill(' ') <<"|   "<<  igem << "   | " << std::dec << std::setw(3) << ibx << " | "; 
+
         packet=0; 
 
     for (int icluster=0; icluster<4; icluster++) {
@@ -3885,12 +3889,12 @@ void TMB::GEMRawhits() {
 
         packet = packet | (((uint64_t) data)<<(14*icluster)); 
 
-//      (*MyOutput_) << std::hex << std::setfill('0') << std::setw(4) << (0x3FFF & data) << " "; 
-        (*MyOutput_) << std::hex << std::setfill('0') << std::setw(1) << (cluster_cnt) << ":" << std::setw(3) << cluster_adr << " ";  
+        (*MyOutput_) << std::hex << std::setfill('0') << std::setw(1) << (cluster_cnt) << ":" << std::setw(3) << cluster_adr << " | ";  
     } // cluster
-    (*MyOutput_) << std::hex << std::setfill('0') << std::setw(14) << (packet) << " ";   
+    (*MyOutput_) << std::hex << std::setfill('0') << std::setw(14) << (packet) << " |";     
     (*MyOutput_) << std::endl;
     } // bx
+    (*MyOutput_) << "|-------+-----+-------+-------+-------+-------+----------------|"<<std::endl; 
     (*MyOutput_) << std::endl;
     } // gem
 
@@ -6931,8 +6935,8 @@ void TMB::SetTMBRegisterDefaults() {
   // 0X300 - 0X306 = ADR_GEM_GTX_RX[0-3]: GTX link control and monitoring for GEM
   //-----------------------------------------------------------------------------
   for (int i=0; i < MAX_GEM_FIBERS_ME11; ++i) {
-      gem_gtx_rx_enable_[i] = gtx_rx_enable_default;
-      gem_gtx_rx_reset_[i] = gtx_rx_reset_default;
+      gem_gtx_rx_enable_[i]           = gtx_rx_enable_default;
+      gem_gtx_rx_reset_[i]            = gtx_rx_reset_default;
       gem_gtx_rx_prbs_test_enable_[i] = gtx_rx_prbs_test_enable_default;
     }
 
@@ -7986,11 +7990,13 @@ void TMB::DecodeTMBRegister_(unsigned long int address, int data) {
     //
   } else if ( address == gem_cfg_adr ) {
     //---------------------------------------------------------------------
-    // 0X310 = ADR_GEM_CFG
+    // 0X312 = ADR_GEM_CFG
     //---------------------------------------------------------------------
-    read_gemA_rxd_int_delay_    = ExtractValueFromData (data , gemA_rxd_int_delay_bitlo    , gemA_rxd_int_delay_bithi);
-    read_gemB_rxd_int_delay_    = ExtractValueFromData (data , gemB_rxd_int_delay_bitlo    , gemB_rxd_int_delay_bithi);
+    read_gem_rxd_int_delay_          = ExtractValueFromData (data , gemA_rxd_int_delay_bitlo         , gemA_rxd_int_delay_bithi);
+    read_gemA_rxd_int_delay_         = ExtractValueFromData (data , gemA_rxd_int_delay_bitlo         , gemA_rxd_int_delay_bithi);
+    read_gemB_rxd_int_delay_         = ExtractValueFromData (data , gemB_rxd_int_delay_bitlo         , gemB_rxd_int_delay_bithi);
     read_decouple_gem_rxd_int_delay_ = ExtractValueFromData (data , decouple_gem_rxd_int_delay_bitlo , decouple_gem_rxd_int_delay_bithi);
+    read_gem_readout_mask_           = ExtractValueFromData (data , gem_readout_mask_bitlo           , gem_readout_mask_bithi);
   }
   //
   // combinations of bits which say which trgmode_ we are using....
@@ -9106,21 +9112,26 @@ void TMB::PrintTMBRegister(unsigned long int address) {
     // 0X310 = ADR_GEM_TBINS
     //---------------------------------------------------------------------
     (*MyOutput_) << " ->GEM Readout Configuration:"                            << std::endl;
-    (*MyOutput_) << "    TMB gem_fifo_tbins                                = " << gem_fifo_tbins_          << std::endl;
-    (*MyOutput_) << "    TMB gem_fifo_pretrig                              = " << gem_fifo_pretrig_        << std::endl;
-    (*MyOutput_) << "    TMB gem_fifo_decouple                             = " << gem_fifo_decouple_       << std::endl;
-    (*MyOutput_) << "    TMB gem_read_enable                               = " << gem_read_enable_         << std::endl;
-    (*MyOutput_) << "    TMB gem Zero Supression Enabled                   = " << gem_zero_supress_enable_ << std::endl;
+    (*MyOutput_) << "    TMB gem_fifo_tbins                                = " << read_gem_fifo_tbins_          << std::endl;
+    (*MyOutput_) << "    TMB gem_fifo_pretrig                              = " << read_gem_fifo_pretrig_        << std::endl;
+    (*MyOutput_) << "    TMB gem_fifo_decouple                             = " << read_gem_fifo_decouple_       << std::endl;
+    (*MyOutput_) << "    TMB gem_read_enable                               = " << read_gem_read_enable_         << std::endl;
+    (*MyOutput_) << "    TMB gem Zero Supression Enabled                   = " << read_gem_zero_supress_enable_ << std::endl;
 
     } else if ( address == gem_cfg_adr ) {
     //---------------------------------------------------------------------
     // 0X312 = ADR_CFG_ADR   
     //---------------------------------------------------------------------
     (*MyOutput_) << " ->GEM Bx Delay Configuration Register:"                  << std::endl;
-    (*MyOutput_) << "    TMB gem A rxd_int_delay                           = " << gemA_rxd_int_delay_    << std::endl;
-    (*MyOutput_) << "    TMB gem A rxd_int_delay                           = " << gemB_rxd_int_delay_    << std::endl;
-    (*MyOutput_) << "    TMB gem rxd_int_delays decoupled                  = " << decouple_gem_rxd_int_delay_ << std::endl;
-    (*MyOutput_) << "    GEM Readout Mask                                  = " << gem_readout_mask_           << std::endl;
+    if (!HasGroupedGemRxValues()) {
+    (*MyOutput_) << "    TMB gem A rxd_int_delay                           = " << read_gemA_rxd_int_delay_         << std::endl;
+    (*MyOutput_) << "    TMB gem B rxd_int_delay                           = " << read_gemB_rxd_int_delay_         << std::endl;
+    }
+    else  {
+    (*MyOutput_) << "    TMB gem rxd_int_delay                             = " << read_gem_rxd_int_delay_          << std::endl;
+    }
+    (*MyOutput_) << "    TMB gem rxd_int_delays decoupled                  = " << read_decouple_gem_rxd_int_delay_ << std::endl;
+    (*MyOutput_) << "    TMB gem readout mask                              = " << read_gem_readout_mask_           << std::endl;
     } else {
     //
     (*MyOutput_) << " -> Unable to decode register: PLEASE DEFINE" << std::endl;
@@ -10517,7 +10528,8 @@ void TMB::CheckTMBConfiguration(int max_number_of_reads) {
         //---------------------------------------------------------------------
 
         config_ok &= compareValues ("TMB gem A rxd_int_delay"          , read_gemA_rxd_int_delay_         , gemA_rxd_int_delay_         , print_errors);
-        config_ok &= compareValues ("TMB gem A rxd_int_delay"          , read_gemB_rxd_int_delay_         , gemB_rxd_int_delay_         , print_errors);
+        if (!HasGroupedGemRxValues())
+        config_ok &= compareValues ("TMB gem B rxd_int_delay"          , read_gemB_rxd_int_delay_         , gemB_rxd_int_delay_         , print_errors);
         config_ok &= compareValues ("TMB gem rxd_int_delays decoupled" , read_decouple_gem_rxd_int_delay_ , decouple_gem_rxd_int_delay_ , print_errors);
         config_ok &= compareValues ("TMB gem readout mask"             , read_gem_readout_mask_           , gem_readout_mask_           , print_errors);
 
