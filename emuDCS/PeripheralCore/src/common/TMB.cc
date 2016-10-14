@@ -3432,7 +3432,7 @@ bool TMB::ReadTMBRawhits_(){
   (*MyOutput_) << std::endl;
   (*MyOutput_) << "TMB Raw Data Packet Dump" << std::endl;
   (*MyOutput_) << std::endl;
-  for(int i=0; i<tmb_data_.size(); i++) {
+  for(unsigned int i=0; i<tmb_data_.size(); i++) {
     (*MyOutput_) << " -> Frame = "  << std::setfill(' ') << std::dec << std::setw(3) << i
                  <<   ", Data = 0x" << std::setfill('0') << std::hex << std::setw(4) << tmb_data_[i].to_ulong()
                  << std::endl;
@@ -3861,14 +3861,18 @@ void TMB::GEMRawhits() {
         status &= ~(0x3 << 3);                     
         status |= (igem & 0x3) << 3;                
         WriteRegister (gem_debug_fifo_ctrl_adr, status); 
-
+        (*MyOutput_) <<
+        "|-------+-----+-------+-------+-------+-------+----------------|"<<std::endl <<
+        "| Fiber |  BX | clst0 | clst1 | clst2 | clst3 |  data packet   |"<<std::endl <<
+        "|-------+-----+-------+-------+-------+-------+----------------|"<<std::endl;
     for (int ibx=0; ibx<16; ibx++) {
         status = (unsigned short) ReadRegister(gem_debug_fifo_ctrl_adr); 
         status &= ~(0x7FF << 5);                   
         status |= (ibx & 0x7FF) << 5;              
         WriteRegister (gem_debug_fifo_ctrl_adr, status); 
 
-        (*MyOutput_) << std::setfill(' ') << "gem" << igem << " bx" << std::dec << std::setw(3) << ibx << ": "; 
+        (*MyOutput_) << std::setfill(' ') <<"|   "<<  igem << "   | " << std::dec << std::setw(3) << ibx << " | "; 
+
         packet=0; 
 
     for (int icluster=0; icluster<4; icluster++) {
@@ -3885,12 +3889,12 @@ void TMB::GEMRawhits() {
 
         packet = packet | (((uint64_t) data)<<(14*icluster)); 
 
-//      (*MyOutput_) << std::hex << std::setfill('0') << std::setw(4) << (0x3FFF & data) << " "; 
-        (*MyOutput_) << std::hex << std::setfill('0') << std::setw(1) << (cluster_cnt) << ":" << std::setw(3) << cluster_adr << " ";  
+        (*MyOutput_) << std::hex << std::setfill('0') << std::setw(1) << (cluster_cnt) << ":" << std::setw(3) << cluster_adr << " | ";  
     } // cluster
-    (*MyOutput_) << std::hex << std::setfill('0') << std::setw(14) << (packet) << " ";   
+    (*MyOutput_) << std::hex << std::setfill('0') << std::setw(14) << (packet) << " |";     
     (*MyOutput_) << std::endl;
     } // bx
+    (*MyOutput_) << "|-------+-----+-------+-------+-------+-------+----------------|"<<std::endl; 
     (*MyOutput_) << std::endl;
     } // gem
 
@@ -6931,8 +6935,8 @@ void TMB::SetTMBRegisterDefaults() {
   // 0X300 - 0X306 = ADR_GEM_GTX_RX[0-3]: GTX link control and monitoring for GEM
   //-----------------------------------------------------------------------------
   for (int i=0; i < MAX_GEM_FIBERS_ME11; ++i) {
-      gem_gtx_rx_enable_[i] = gtx_rx_enable_default;
-      gem_gtx_rx_reset_[i] = gtx_rx_reset_default;
+      gem_gtx_rx_enable_[i]           = gtx_rx_enable_default;
+      gem_gtx_rx_reset_[i]            = gtx_rx_reset_default;
       gem_gtx_rx_prbs_test_enable_[i] = gtx_rx_prbs_test_enable_default;
     }
 
