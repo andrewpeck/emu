@@ -3210,13 +3210,13 @@ const int gemA_rxd_int_delay_bithi           = 3;
 const int gemA_rxd_int_delay_default         = 0;
 
 const int gemB_rxd_int_delay_vmereg          = gem_cfg_adr;
-const int gemB_rxd_int_delay_bitlo           = 0;
-const int gemB_rxd_int_delay_bithi           = 0;
+const int gemB_rxd_int_delay_bitlo           = 4;
+const int gemB_rxd_int_delay_bithi           = 7;
 const int gemB_rxd_int_delay_default         = 0;
 
 const int decouple_gem_rxd_int_delay_vmereg  = gem_cfg_adr;
-const int decouple_gem_rxd_int_delay_bitlo   = 0;
-const int decouple_gem_rxd_int_delay_bithi   = 0;
+const int decouple_gem_rxd_int_delay_bitlo   = 8;
+const int decouple_gem_rxd_int_delay_bithi   = 8;
 const int decouple_gem_rxd_int_delay_default = 0;
 
 const int gem_readout_mask_vmereg            = gem_cfg_adr;
