@@ -667,8 +667,9 @@ void XMLParser::TMBParser(xercesc::DOMNode * pNode, Crate * theCrate, Chamber * 
     if (gemEnabled) { 
         //
         if (tmb_->HasGroupedGemRxValues() == 1){
-            if (fillInt("gem_delay" ,value))     { tmb_->SetGemRxClockDelay(value); }
-            if (fillInt("gem_posneg",value))     { tmb_->SetGemRxPosNeg(value);     }
+            if (fillInt("gem_delay",      value)) { tmb_->SetGemRxClockDelay(value); }
+            if (fillInt("gem_fine_delay" ,value)) { tmb_->SetGemRxFineDelay(value); }
+            if (fillInt("gem_posneg",     value)) { tmb_->SetGemRxPosNeg(value);     }
         }
         //
         //0x310

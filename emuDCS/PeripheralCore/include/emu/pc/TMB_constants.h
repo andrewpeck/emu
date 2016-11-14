@@ -2525,6 +2525,7 @@ const int alct_tx_posneg_default       =  0;
 //--------------------------------------------------------------
 const int cfeb0_rx_clock_delay_vmereg   =  phaser_cfeb0_rxd_adr;
 const int cfeb0_rx_clock_delay_default  =  3;                   //default value in nanoseconds (not the VME register values)
+const int cfeb0_rx_fine_delay_default   =  0;
 const int cfeb0_rx_posneg_default       =  0;
 //
 //--------------------------------------------------------------
@@ -2532,6 +2533,7 @@ const int cfeb0_rx_posneg_default       =  0;
 //--------------------------------------------------------------
 const int cfeb1_rx_clock_delay_vmereg   =  phaser_cfeb1_rxd_adr;
 const int cfeb1_rx_clock_delay_default  =  3;                   //default value in nanoseconds (not the VME register values)
+const int cfeb1_rx_fine_delay_default   =  0;
 const int cfeb1_rx_posneg_default       =  0;
 //
 //--------------------------------------------------------------
@@ -2539,6 +2541,7 @@ const int cfeb1_rx_posneg_default       =  0;
 //--------------------------------------------------------------
 const int cfeb2_rx_clock_delay_vmereg   =  phaser_cfeb2_rxd_adr;
 const int cfeb2_rx_clock_delay_default  =  3;                   //default value in nanoseconds (not the VME register values)
+const int cfeb2_rx_fine_delay_default   =  0;
 const int cfeb2_rx_posneg_default       =  0;
 //
 //--------------------------------------------------------------
@@ -2546,6 +2549,7 @@ const int cfeb2_rx_posneg_default       =  0;
 //--------------------------------------------------------------
 const int cfeb3_rx_clock_delay_vmereg   =  phaser_cfeb3_rxd_adr;
 const int cfeb3_rx_clock_delay_default  =  3;                   //default value in nanoseconds (not the VME register values)
+const int cfeb3_rx_fine_delay_default   =  0;
 const int cfeb3_rx_posneg_default       =  0;
 //
 //--------------------------------------------------------------
@@ -2553,35 +2557,40 @@ const int cfeb3_rx_posneg_default       =  0;
 //--------------------------------------------------------------
 const int cfeb4_rx_clock_delay_vmereg   =  phaser_cfeb4_rxd_adr;
 const int cfeb4_rx_clock_delay_default  =  3;                   //default value in nanoseconds (not the VME register values)
+const int cfeb4_rx_fine_delay_default   =  0;
 const int cfeb4_rx_posneg_default       =  0;
 //
 //--------------------------------------------------------------
 //[0X16A] = ADR_PHASER7:  values in the xml file for cfeb5_rx
 //--------------------------------------------------------------
-const int cfeb5_rx_clock_delay_vmereg   =  phaser_cfeb5_rxd_adr; // for compatibility, will be removed
-const int cfeb5_rx_clock_delay_default  =  3;                   //default value in nanoseconds (not the VME register values)
-const int cfeb5_rx_posneg_default       =  0;
+const int cfeb5_rx_clock_delay_vmereg  = phaser_cfeb5_rxd_adr; // for compatibility, will be removed
+const int cfeb5_rx_clock_delay_default = 3;                   //default value in nanoseconds (not the VME register values)
+const int cfeb5_rx_fine_delay_default  = 0;
+const int cfeb5_rx_posneg_default      = 0;
 //
 //--------------------------------------------------------------
 //[0X16C] = ADR_PHASER8:  values in the xml file for cfeb6_rx
 //--------------------------------------------------------------
-const int cfeb6_rx_clock_delay_vmereg   =  phaser_cfeb6_rxd_adr; // for compatibility, will be removed
-const int cfeb6_rx_clock_delay_default  =  3;                   //default value in nanoseconds (not the VME register values)
-const int cfeb6_rx_posneg_default       =  0;
+const int cfeb6_rx_clock_delay_vmereg  = phaser_cfeb6_rxd_adr; // for compatibility, will be removed
+const int cfeb6_rx_clock_delay_default = 3;                   //default value in nanoseconds (not the VME register values)
+const int cfeb6_rx_fine_delay_default  = 0;         
+const int cfeb6_rx_posneg_default      = 0;
 //
 //--------------------------------------------------------------
 //[0X16C] = ADR_PHASER7:  values in the xml file for cfeb0123_rx
 //--------------------------------------------------------------
-const int cfeb0123_rx_clock_delay_vmereg   =  phaser_cfeb0123_rxd_adr;
-const int cfeb0123_rx_clock_delay_default  =  3;                   //default value in nanoseconds (not the VME register values)
-const int cfeb0123_rx_posneg_default       =  0;
+const int cfeb0123_rx_clock_delay_vmereg  = phaser_cfeb0123_rxd_adr;
+const int cfeb0123_rx_clock_delay_default = 3;                   //default value in nanoseconds (not the VME register values)
+const int cfeb0123_rx_fine_delay_default  = 0;                  
+const int cfeb0123_rx_posneg_default      = 0;
 //
 //--------------------------------------------------------------
 //[0X16C] = ADR_PHASER8:  values in the xml file for cfeb456_rx
 //--------------------------------------------------------------
-const int cfeb456_rx_clock_delay_vmereg   =  phaser_cfeb456_rxd_adr;
-const int cfeb456_rx_clock_delay_default  =  3;                   //default value in nanoseconds (not the VME register values)
-const int cfeb456_rx_posneg_default       =  0;
+const int cfeb456_rx_clock_delay_vmereg  = phaser_cfeb456_rxd_adr;
+const int cfeb456_rx_clock_delay_default = 3;                   //default value in nanoseconds (not the VME register values)
+const int cfeb456_rx_fine_delay_default  = 0;                   
+const int cfeb456_rx_posneg_default      = 0;
 //
 //--------------------------------------------------------------
 //[0X308] = ADR_PHASER9:  values in the xml file for gem_rxd
@@ -2589,6 +2598,7 @@ const int cfeb456_rx_posneg_default       =  0;
 const int gem_rx_clock_delay_vmereg   =  phaser_gem_rxd_adr;
 const int gem_rx_clock_delay_default  =  3; // default value in nanoseconds (not the VME register values)
 const int gem_rx_posneg_default       =  0;
+const int gem_rx_fine_delay_default   =  0;
 //
 //--------------------------------------------------------------
 //[0X308] = ADR_PHASER9:  values in the xml file for gemA_rxd
@@ -2596,6 +2606,7 @@ const int gem_rx_posneg_default       =  0;
 const int gemA_rx_clock_delay_vmereg   =  phaser_gemA_rxd_adr;
 const int gemA_rx_clock_delay_default  =  3; // default value in nanoseconds (not the VME register values)
 const int gemA_rx_posneg_default       =  0;
+const int gemA_rx_fine_delay_default   =  0;
 //
 //--------------------------------------------------------------
 //[0X30A] = ADR_PHASER10:  values in the xml file for gemB_rxd
@@ -2603,6 +2614,7 @@ const int gemA_rx_posneg_default       =  0;
 const int gemB_rx_clock_delay_vmereg   =  phaser_gemB_rxd_adr;
 const int gemB_rx_clock_delay_default  =  3; // default value in nanoseconds (not the VME register values)
 const int gemB_rx_posneg_default       =  0;
+const int gemB_rx_fine_delay_default   =  0;
 //
 //---------------------------------------------------------------------
 // 0X11C = ADR_DELAY0_INT:  CFEB to TMB "interstage" delays

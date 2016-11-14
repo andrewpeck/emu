@@ -617,7 +617,9 @@ public:
   int * GetCounters();                   /// read TMB counters, fill values in software
   int * NewCounters();                   /// read TMB counters in jumbo packet
   int  GetCounter(int counter);         /// return counter value
+  int  GetGemCounter(int counter);         /// return gem counter value
   void PrintCounters(int counter=-1);   /// print counter value (-1 means print all)
+  void PrintGemCounters(int counter=-1);   /// print counter value (-1 means print all)
   std::string CounterName(int counter); /// return counter label
   inline int GetMaxCounter() { return MaxCounter; }
   std::string GEMCounterName(int counter); /// return counter label
@@ -2065,13 +2067,20 @@ public:
   inline int  GetReadCfeb5RxPosNeg() { return read_cfeb5_rx_posneg_; }
 
   inline void SetCfeb456RxClockDelay(int cfeb456_rx_clock_delay) {
-    cfeb4_rx_clock_delay_ = cfeb456_rx_clock_delay;
-    cfeb5_rx_clock_delay_ = cfeb456_rx_clock_delay;
-    cfeb6_rx_clock_delay_ = cfeb456_rx_clock_delay;
+    cfeb4_rx_clock_delay_   = cfeb456_rx_clock_delay;
+    cfeb5_rx_clock_delay_   = cfeb456_rx_clock_delay;
+    cfeb6_rx_clock_delay_   = cfeb456_rx_clock_delay;
     cfeb456_rx_clock_delay_ = cfeb456_rx_clock_delay;
+  }
+  inline void SetCfeb456RxFineDelay(int cfeb456_rx_fine_delay) {
+    cfeb4_rx_fine_delay_   = cfeb456_rx_fine_delay;
+    cfeb5_rx_fine_delay_   = cfeb456_rx_fine_delay;
+    cfeb6_rx_fine_delay_   = cfeb456_rx_fine_delay;
+    cfeb456_rx_fine_delay_ = cfeb456_rx_fine_delay;
   }
   inline void SetCFEB456delay(int cfeb456_rx_clock_delay)        { SetCfeb456RxClockDelay(cfeb456_rx_clock_delay);  } //legacy setter
   inline int  GetCfeb456RxClockDelay() { return cfeb456_rx_clock_delay_; }
+  inline int  GetCfeb456RxFineDelay() { return cfeb456_rx_clock_delay_; }
   inline int  GetCFEB456delay()        { return GetCfeb456RxClockDelay(); } //legacy getter
   inline int  GetReadCfeb456RxClockDelay() { return read_cfeb456_rx_clock_delay_; }
   //
@@ -2097,14 +2106,22 @@ public:
   inline int  GetReadCfeb6RxPosNeg() { return read_cfeb6_rx_posneg_; }
 
   inline void SetCfeb0123RxClockDelay(int cfeb0123_rx_clock_delay) {
-    cfeb0_rx_clock_delay_ = cfeb0123_rx_clock_delay;
-    cfeb1_rx_clock_delay_ = cfeb0123_rx_clock_delay;
-    cfeb2_rx_clock_delay_ = cfeb0123_rx_clock_delay;
-    cfeb3_rx_clock_delay_ = cfeb0123_rx_clock_delay;
+    cfeb0_rx_clock_delay_    = cfeb0123_rx_clock_delay;
+    cfeb1_rx_clock_delay_    = cfeb0123_rx_clock_delay;
+    cfeb2_rx_clock_delay_    = cfeb0123_rx_clock_delay;
+    cfeb3_rx_clock_delay_    = cfeb0123_rx_clock_delay;
     cfeb0123_rx_clock_delay_ = cfeb0123_rx_clock_delay;
+  }
+  inline void SetCfeb0123RxFineDelay(int cfeb0123_rx_fine_delay) {
+    cfeb0_rx_fine_delay_    = cfeb0123_rx_fine_delay;
+    cfeb1_rx_fine_delay_    = cfeb0123_rx_fine_delay;
+    cfeb2_rx_fine_delay_    = cfeb0123_rx_fine_delay;
+    cfeb3_rx_fine_delay_    = cfeb0123_rx_fine_delay;
+    cfeb0123_rx_fine_delay_ = cfeb0123_rx_fine_delay;
   }
   inline void SetCFEB0123delay(int cfeb0123_rx_clock_delay)        { SetCfeb0123RxClockDelay(cfeb0123_rx_clock_delay);  } //legacy setter
   inline int  GetCfeb0123RxClockDelay() { return cfeb0123_rx_clock_delay_; }
+  inline int  GetCfeb0123RxFineDelay() { return cfeb0123_rx_fine_delay_; }
   inline int  GetCFEB0123delay()        { return GetCfeb0123RxClockDelay(); } //legacy getter
   inline int  GetReadCfeb0123RxClockDelay() { return read_cfeb0123_rx_clock_delay_; }
   //
@@ -2526,11 +2543,19 @@ public:
       gemA_rx_clock_delay_ = gemA_rx_clock_delay;
   }
   inline void SetGemBRxClockDelay(int gemB_rx_clock_delay) { gemB_rx_clock_delay_ = gemB_rx_clock_delay; }
+  //
   inline void SetGemRxClockDelay(int gem_rx_clock_delay) { 
       assert(GetHardwareVersion()==2 && GetGemEnabled());
       gem_rx_clock_delay_  = gem_rx_clock_delay;
       gemA_rx_clock_delay_ = gem_rx_clock_delay;
       gemB_rx_clock_delay_ = gem_rx_clock_delay;
+  }
+  //
+  inline void SetGemRxFineDelay(int gem_rx_fine_delay) {
+      assert(GetHardwareVersion()==2 && GetGemEnabled());
+      gem_rx_fine_delay_  = gem_rx_fine_delay;
+      gemA_rx_fine_delay_ = gem_rx_fine_delay;
+      gemB_rx_fine_delay_ = gem_rx_fine_delay;
   }
   // 
   inline int GetGemARxClockDelay() { return gemA_rx_clock_delay_; }
@@ -3826,9 +3851,11 @@ private:
   //[0X112] = ADR_PHASER2:  values in the xml file for cfeb0_rx
   //--------------------------------------------------------------
   int cfeb0_rx_clock_delay_ ;
+  int cfeb0_rx_fine_delay_ ;
   int cfeb0_rx_posneg_;
   //
   int read_cfeb0_rx_clock_delay_ ;
+  int read_cfeb0_rx_fine_delay_ ;
   int read_cfeb0_rx_posneg_;
   //
   //
@@ -3836,9 +3863,11 @@ private:
   //[0X114] = ADR_PHASER3:  values in the xml file for cfeb1_rx
   //--------------------------------------------------------------
   int cfeb1_rx_clock_delay_ ;
+  int cfeb1_rx_fine_delay_ ;
   int cfeb1_rx_posneg_;
   //
   int read_cfeb1_rx_clock_delay_ ;
+  int read_cfeb1_rx_fine_delay_ ;
   int read_cfeb1_rx_posneg_;
   //
   //
@@ -3846,9 +3875,11 @@ private:
   //[0X116] = ADR_PHASER4:  values in the xml file for cfeb2_rx
   //--------------------------------------------------------------
   int cfeb2_rx_clock_delay_ ;
+  int cfeb2_rx_fine_delay_ ;
   int cfeb2_rx_posneg_;
   //
   int read_cfeb2_rx_clock_delay_ ;
+  int read_cfeb2_rx_fine_delay_ ;
   int read_cfeb2_rx_posneg_;
   //
   //
@@ -3856,9 +3887,11 @@ private:
   //[0X118] = ADR_PHASER5:  values in the xml file for cfeb3_rx
   //--------------------------------------------------------------
   int cfeb3_rx_clock_delay_ ;
+  int cfeb3_rx_fine_delay_ ;
   int cfeb3_rx_posneg_;
   //
   int read_cfeb3_rx_clock_delay_ ;
+  int read_cfeb3_rx_fine_delay_ ;
   int read_cfeb3_rx_posneg_;
   //
   //
@@ -3866,9 +3899,11 @@ private:
   //[0X11A] = ADR_PHASER6:  values in the xml file for cfeb4_rx
   //--------------------------------------------------------------
   int cfeb4_rx_clock_delay_ ;
+  int cfeb4_rx_fine_delay_ ;
   int cfeb4_rx_posneg_;
   //
   int read_cfeb4_rx_clock_delay_ ;
+  int read_cfeb4_rx_fine_delay_ ;
   int read_cfeb4_rx_posneg_;
   //
   //
@@ -3876,13 +3911,17 @@ private:
   //[0X16A] = ADR_V6_PHASER7:  values in the xml file for A side dcfebs - cfeb456_rx
   //--------------------------------------------------------------
   int cfeb456_rx_clock_delay_ ;
+  int cfeb456_rx_fine_delay_ ;
   int cfeb456_rx_posneg_;
   int cfeb5_rx_clock_delay_ ;
+  int cfeb5_rx_fine_delay_ ;
   int cfeb5_rx_posneg_;
   //
   int read_cfeb456_rx_clock_delay_ ;
+  int read_cfeb456_rx_fine_delay_ ;
   int read_cfeb456_rx_posneg_;
   int read_cfeb5_rx_clock_delay_ ;
+  int read_cfeb5_rx_fine_delay_ ;
   int read_cfeb5_rx_posneg_;
   //
   //
@@ -3890,40 +3929,49 @@ private:
   //[0X16C] = ADR_V6_PHASER8:  values in the xml file for B side dcfebs - cfeb0123_rx
   //--------------------------------------------------------------
   int cfeb0123_rx_clock_delay_ ;
+  int cfeb0123_rx_fine_delay_ ;
   int cfeb0123_rx_posneg_;
   int cfeb6_rx_clock_delay_ ;
+  int cfeb6_rx_fine_delay_ ;
   int cfeb6_rx_posneg_;
   //
   int read_cfeb0123_rx_clock_delay_ ;
+  int read_cfeb0123_rx_fine_delay_ ;
   int read_cfeb0123_rx_posneg_;
   int read_cfeb6_rx_clock_delay_ ;
+  int read_cfeb6_rx_fine_delay_ ;
   int read_cfeb6_rx_posneg_;
   //
   //--------------------------------------------------------------
   //[0X308] = ADR_V6_PHASER9:  values in the xml file for GEMA
   //--------------------------------------------------------------
   int gem_rx_clock_delay_ ;
+  int gem_rx_fine_delay_  ;
   int gem_rx_posneg_;
-  int gemA_rx_clock_delay_ ;
-  int gemA_rx_posneg_;
-  //
   int read_gem_rx_clock_delay_ ;
+  int read_gem_rx_fine_delay_  ;
   int read_gem_rx_posneg_;
+  //
+  int gemA_rx_clock_delay_ ;
+  int gemA_rx_fine_delay_  ;
+  int gemA_rx_posneg_;
   int read_gemA_rx_clock_delay_ ;
+  int read_gemA_rx_fine_delay_  ;
   int read_gemA_rx_posneg_;
   //
   //--------------------------------------------------------------
   //[0X30A] = ADR_V6_PHASER10:  values in the xml file for GEMB
   //--------------------------------------------------------------
   int gemB_rx_clock_delay_ ;
+  int gemB_rx_fine_delay_  ;
   int gemB_rx_posneg_;
-  //
   int read_gemB_rx_clock_delay_ ;
+  int read_gemB_rx_fine_delay_  ;
   int read_gemB_rx_posneg_;
   //
   //
   //!convert the user value to values which are written to the VME Register
-  int ConvertDigitalPhaseToVMERegisterValues_(int digital_phase,int posneg);
+  int ConvertDigitalPhaseToVMERegisterValues_(int digital_phase,int posneg,int fine_phase=0);
   //
   //!convert the user value (in nsec) to values which are written to the VME Register
   void ConvertVMERegisterValuesToDigitalPhases_(long unsigned int vme_address);
