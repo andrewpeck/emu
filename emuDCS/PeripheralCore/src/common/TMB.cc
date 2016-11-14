@@ -2048,66 +2048,72 @@ std::string TMB::GEMCounterName(int counter){
     //
     std::string name = "Not defined";
     //
-    if (counter==0)  name = "GEM: GEM A Sync Error                                   ";
-    if (counter==1)  name = "GEM: GEM B Sync Error                                   ";
-    if (counter==2)  name = "GEM: Superchamber Sync Error                            ";
-                 
-    if (counter==3)  name = "GEM: GEM A Overflow                                     ";
-    if (counter==4)  name = "GEM: GEB B Overflow                                     ";
+         if (counter==0)  name = "GEM: GEM A Sync Error                                   ";
+    else if (counter==1)  name = "GEM: GEM B Sync Error                                   ";
+    else if (counter==2)  name = "GEM: Superchamber Sync Error                            ";
 
-    if (counter==5)  name = "GEM: gem A cluster0                                     ";
-    if (counter==6)  name = "GEM: gem A cluster1                                     ";
-    if (counter==7)  name = "GEM: gem A cluster2                                     ";
-    if (counter==8)  name = "GEM: gem A cluster3                                     ";
-    if (counter==9)  name = "GEM: gem A cluster4                                     ";
-    if (counter==10) name = "GEM: gem A cluster5                                     ";
-    if (counter==11) name = "GEM: gem A cluster6                                     ";
-    if (counter==12) name = "GEM: gem A cluster7                                     ";
+    else if (counter==3)  name = "GEM: GEM A Overflow                                     ";
+    else if (counter==4)  name = "GEM: GEB B Overflow                                     ";
 
-    if (counter==13) name = "GEM: gem B cluster0                                     ";
-    if (counter==14) name = "GEM: gem B cluster1                                     ";
-    if (counter==15) name = "GEM: gem B cluster2                                     ";
-    if (counter==16) name = "GEM: gem B cluster3                                     ";
-    if (counter==17) name = "GEM: gem B cluster4                                     ";
-    if (counter==18) name = "GEM: gem B cluster5                                     ";
-    if (counter==19) name = "GEM: gem B cluster6                                     ";
-    if (counter==20) name = "GEM: gem B cluster7                                     ";
+    else if (counter==5)  name = "GEM: gem A cluster0                                     ";
+    else if (counter==6)  name = "GEM: gem A cluster1                                     ";
+    else if (counter==7)  name = "GEM: gem A cluster2                                     ";
+    else if (counter==8)  name = "GEM: gem A cluster3                                     ";
+    else if (counter==9)  name = "GEM: gem A cluster4                                     ";
+    else if (counter==10) name = "GEM: gem A cluster5                                     ";
+    else if (counter==11) name = "GEM: gem A cluster6                                     ";
+    else if (counter==12) name = "GEM: gem A cluster7                                     ";
 
-    if (counter==21) name = "GEM: Bx with at least 1 Copad Matched                   ";
+    else if (counter==13) name = "GEM: gem B cluster0                                     ";
+    else if (counter==14) name = "GEM: gem B cluster1                                     ";
+    else if (counter==15) name = "GEM: gem B cluster2                                     ";
+    else if (counter==16) name = "GEM: gem B cluster3                                     ";
+    else if (counter==17) name = "GEM: gem B cluster4                                     ";
+    else if (counter==18) name = "GEM: gem B cluster5                                     ";
+    else if (counter==19) name = "GEM: gem B cluster6                                     ";
+    else if (counter==20) name = "GEM: gem B cluster7                                     ";
 
-    if (counter==22) name = "GEM: Copad0 Matched                                     ";
-    if (counter==23) name = "GEM: Copad1 Matched                                     ";
-    if (counter==24) name = "GEM: Copad2 Matched                                     ";
-    if (counter==25) name = "GEM: Copad3 Matched                                     ";
-    if (counter==26) name = "GEM: Copad4 Matched                                     ";
-    if (counter==27) name = "GEM: Copad5 Matched                                     ";
-    if (counter==28) name = "GEM: Copad6 Matched                                     ";
-    if (counter==29) name = "GEM: Copad7 Matched                                     ";
+    else if (counter==21) name = "GEM: Bx with at least 1 Copad Matched                   ";
 
-    if (counter==30) name = "GEM: Copad Match in Vfat0                               ";
-    if (counter==31) name = "GEM: Copad Match in Vfat1                               ";
-    if (counter==32) name = "GEM: Copad Match in Vfat2                               ";
-    if (counter==33) name = "GEM: Copad Match in Vfat3                               ";
-    if (counter==34) name = "GEM: Copad Match in Vfat4                               ";
-    if (counter==35) name = "GEM: Copad Match in Vfat5                               ";
-    if (counter==36) name = "GEM: Copad Match in Vfat6                               ";
-    if (counter==37) name = "GEM: Copad Match in Vfat7                               ";
-    if (counter==38) name = "GEM: Copad Match in Vfat8                               ";
-    if (counter==39) name = "GEM: Copad Match in Vfat9                               ";
-    if (counter==40) name = "GEM: Copad Match in Vfat10                              ";
-    if (counter==41) name = "GEM: Copad Match in Vfat11                              ";
-    if (counter==42) name = "GEM: Copad Match in Vfat12                              ";
-    if (counter==43) name = "GEM: Copad Match in Vfat13                              ";
-    if (counter==44) name = "GEM: Copad Match in Vfat14                              ";
-    if (counter==45) name = "GEM: Copad Match in Vfat15                              ";
-    if (counter==46) name = "GEM: Copad Match in Vfat16                              ";
-    if (counter==47) name = "GEM: Copad Match in Vfat17                              ";
-    if (counter==48) name = "GEM: Copad Match in Vfat18                              ";
-    if (counter==49) name = "GEM: Copad Match in Vfat19                              ";
-    if (counter==50) name = "GEM: Copad Match in Vfat20                              ";
-    if (counter==51) name = "GEM: Copad Match in Vfat21                              ";
-    if (counter==52) name = "GEM: Copad Match in Vfat22                              ";
-    if (counter==53) name = "GEM: Copad Match in Vfat23                              ";
+    else if (counter==22) name = "GEM: Copad0 Matched                                     ";
+    else if (counter==23) name = "GEM: Copad1 Matched                                     ";
+    else if (counter==24) name = "GEM: Copad2 Matched                                     ";
+    else if (counter==25) name = "GEM: Copad3 Matched                                     ";
+    else if (counter==26) name = "GEM: Copad4 Matched                                     ";
+    else if (counter==27) name = "GEM: Copad5 Matched                                     ";
+    else if (counter==28) name = "GEM: Copad6 Matched                                     ";
+    else if (counter==29) name = "GEM: Copad7 Matched                                     ";
+
+    else if (counter==30) name = "GEM: Copad Match in Vfat0                               ";
+    else if (counter==31) name = "GEM: Copad Match in Vfat1                               ";
+    else if (counter==32) name = "GEM: Copad Match in Vfat2                               ";
+    else if (counter==33) name = "GEM: Copad Match in Vfat3                               ";
+    else if (counter==34) name = "GEM: Copad Match in Vfat4                               ";
+    else if (counter==35) name = "GEM: Copad Match in Vfat5                               ";
+    else if (counter==36) name = "GEM: Copad Match in Vfat6                               ";
+    else if (counter==37) name = "GEM: Copad Match in Vfat7                               ";
+    else if (counter==38) name = "GEM: Copad Match in Vfat8                               ";
+    else if (counter==39) name = "GEM: Copad Match in Vfat9                               ";
+    else if (counter==40) name = "GEM: Copad Match in Vfat10                              ";
+    else if (counter==41) name = "GEM: Copad Match in Vfat11                              ";
+    else if (counter==42) name = "GEM: Copad Match in Vfat12                              ";
+    else if (counter==43) name = "GEM: Copad Match in Vfat13                              ";
+    else if (counter==44) name = "GEM: Copad Match in Vfat14                              ";
+    else if (counter==45) name = "GEM: Copad Match in Vfat15                              ";
+    else if (counter==46) name = "GEM: Copad Match in Vfat16                              ";
+    else if (counter==47) name = "GEM: Copad Match in Vfat17                              ";
+    else if (counter==48) name = "GEM: Copad Match in Vfat18                              ";
+    else if (counter==49) name = "GEM: Copad Match in Vfat19                              ";
+    else if (counter==50) name = "GEM: Copad Match in Vfat20                              ";
+    else if (counter==51) name = "GEM: Copad Match in Vfat21                              ";
+    else if (counter==52) name = "GEM: Copad Match in Vfat22                              ";
+    else if (counter==53) name = "GEM: Copad Match in Vfat23                              ";
+
+    else if (counter==54) name = "GEM: ALCT*GEM Match                                     ";
+    else if (counter==55) name = "GEM: CLCT*GEM Match                                     ";
+    else if (counter==56) name = "GEM: ALCT*CLCT*GEM Match                                ";
+    else if (counter==57) name = "GEM: CLCT*GEM (no ALCT)                                 ";
+    else if (counter==58) name = "GEM: ALCT*GEM (no CLCT)                                 ";
   //
   return name;
 }
