@@ -1905,17 +1905,30 @@ void TMB::PrintCounters(int counter){
   if (counter<0) {
         for (int i=0; i < GetMaxCounter(); i++) 
         (*MyOutput_) << std::dec << std::setw(4) << i << CounterName(i)  << FinalCounter[i] <<std::endl ;
-
-        // need check if GEM is used. How?
-        if (gem_enabled_) { 
-            (*MyOutput_) << std::endl; // put a blank line before GEMs 
-            for (int i=0; i < GetMaxGEMCounter(); i++) 
-                if (GEMCounterName(i)!="Not defined")
-                    (*MyOutput_) << std::dec << std::setw(4) << i << GEMCounterName(i) << FinalGEMCounter[i] << std::endl ;
-        }
   } 
   else { // print only a single counter
         (*MyOutput_) << std::dec << counter << CounterName(counter) << FinalCounter[counter] <<std::endl ;
+  }
+  //
+}
+//
+void TMB::PrintGemCounters(int counter){
+  //
+  // if (counter < 0) { print all counters }
+  //
+  if (gem_enabled_) {
+
+
+  if (counter<0) {
+      (*MyOutput_) << std::endl; // put a blank line before GEMs 
+      for (int i=0; i < GetMaxGEMCounter(); i++) 
+          if (GEMCounterName(i)!="Not defined")
+              (*MyOutput_) << std::dec << std::setw(4) << i << GEMCounterName(i) << FinalGEMCounter[i] << std::endl ;
+  } 
+  else { // print only a single counter
+        (*MyOutput_) << std::dec << std::setw(4) << counter << GEMCounterName(counter) << FinalGEMCounter[counter] << std::endl ;
+  }
+
   }
   //
 }
@@ -2127,6 +2140,11 @@ void TMB::ResetCounters(){
 int TMB::GetCounter(int counterID){
   //
   return FinalCounter[counterID];
+}
+//
+int TMB::GetGemCounter(int counterID){
+  //
+  return FinalGEMCounter[counterID];
 }
 //
 int * TMB::GetCounters(){
@@ -3854,7 +3872,7 @@ void TMB::GEMRawhits() {
     unsigned short int status; 
     uint16_t data; 
 
-    unsigned long long packet=0; 
+    unsigned long long packet=0;
 
     for (int igem=0; igem<4; igem++) {
         status = (unsigned short) ReadRegister(gem_debug_fifo_ctrl_adr); 
@@ -6813,61 +6831,74 @@ void TMB::SetTMBRegisterDefaults() {
   //[0X112] = ADR_PHASER2:  values in the xml file for cfeb0_rx
   //--------------------------------------------------------------
   cfeb0_rx_clock_delay_ = HasGroupedME11ABCFEBRxValues() == 1 ? cfeb0123_rx_clock_delay_default : cfeb0_rx_clock_delay_default;
+  cfeb0_rx_fine_delay_  = HasGroupedME11ABCFEBRxValues() == 1 ? cfeb0123_rx_fine_delay_default : cfeb0_rx_fine_delay_default;
   cfeb0_rx_posneg_      = HasGroupedME11ABCFEBRxValues() == 1 ? cfeb0123_rx_posneg_default : cfeb0_rx_posneg_default     ;
   //
   //--------------------------------------------------------------
   //[0X114] = ADR_PHASER3:  values in the xml file for cfeb1_rx
   //--------------------------------------------------------------
   cfeb1_rx_clock_delay_ = HasGroupedME11ABCFEBRxValues() == 1 ? cfeb0123_rx_clock_delay_default : cfeb1_rx_clock_delay_default;
+  cfeb1_rx_fine_delay_  = HasGroupedME11ABCFEBRxValues() == 1 ? cfeb0123_rx_fine_delay_default : cfeb1_rx_fine_delay_default;
   cfeb1_rx_posneg_      = HasGroupedME11ABCFEBRxValues() == 1 ? cfeb0123_rx_posneg_default : cfeb1_rx_posneg_default     ;
   //
   //--------------------------------------------------------------
   //[0X116] = ADR_PHASER4:  values in the xml file for cfeb2_rx
   //--------------------------------------------------------------
   cfeb2_rx_clock_delay_ = HasGroupedME11ABCFEBRxValues() == 1 ? cfeb0123_rx_clock_delay_default : cfeb2_rx_clock_delay_default;
+  cfeb2_rx_fine_delay_  = HasGroupedME11ABCFEBRxValues() == 1 ? cfeb0123_rx_fine_delay_default : cfeb2_rx_fine_delay_default;
   cfeb2_rx_posneg_      = HasGroupedME11ABCFEBRxValues() == 1 ? cfeb0123_rx_posneg_default : cfeb2_rx_posneg_default     ;
   //
   //--------------------------------------------------------------
   //[0X118] = ADR_PHASER5:  values in the xml file for cfeb3_rx
   //--------------------------------------------------------------
   cfeb3_rx_clock_delay_ = HasGroupedME11ABCFEBRxValues() == 1 ? cfeb0123_rx_clock_delay_default : cfeb3_rx_clock_delay_default;
+  cfeb3_rx_fine_delay_  = HasGroupedME11ABCFEBRxValues() == 1 ? cfeb0123_rx_fine_delay_default : cfeb3_rx_fine_delay_default;
   cfeb3_rx_posneg_      = HasGroupedME11ABCFEBRxValues() == 1 ? cfeb0123_rx_posneg_default : cfeb3_rx_posneg_default     ;
   //
   //--------------------------------------------------------------
   //[0X11A] = ADR_PHASER6:  values in the xml file for cfeb4_rx
   //--------------------------------------------------------------
   cfeb4_rx_clock_delay_ = HasGroupedME11ABCFEBRxValues() == 1 ? cfeb456_rx_clock_delay_default : cfeb4_rx_clock_delay_default;
+  cfeb4_rx_fine_delay_  = HasGroupedME11ABCFEBRxValues() == 1 ? cfeb456_rx_fine_delay_default : cfeb4_rx_fine_delay_default;
   cfeb4_rx_posneg_      = HasGroupedME11ABCFEBRxValues() == 1 ? cfeb456_rx_posneg_default : cfeb4_rx_posneg_default     ;
   //
   //--------------------------------------------------------------
   //[0X16A] = ADR_PHASER7:  values in the xml file for cfeb5_rx or cfeb456
   //--------------------------------------------------------------
-  cfeb5_rx_clock_delay_ = HasGroupedME11ABCFEBRxValues() == 1 ? cfeb456_rx_clock_delay_default : cfeb5_rx_clock_delay_default;
-  cfeb5_rx_posneg_      = HasGroupedME11ABCFEBRxValues() == 1 ? cfeb456_rx_posneg_default : cfeb5_rx_posneg_default     ;
+  cfeb5_rx_clock_delay_   = HasGroupedME11ABCFEBRxValues() == 1 ? cfeb456_rx_clock_delay_default : cfeb5_rx_clock_delay_default;
+  cfeb5_rx_fine_delay_    = HasGroupedME11ABCFEBRxValues() == 1 ? cfeb456_rx_fine_delay_default : cfeb5_rx_fine_delay_default;
+  cfeb5_rx_posneg_        = HasGroupedME11ABCFEBRxValues() == 1 ? cfeb456_rx_posneg_default : cfeb5_rx_posneg_default     ;
   cfeb456_rx_clock_delay_ = cfeb456_rx_clock_delay_default;
-  cfeb456_rx_posneg_ = cfeb456_rx_posneg_default; 
+  cfeb456_rx_fine_delay_  = cfeb456_rx_fine_delay_default;
+  cfeb456_rx_posneg_      = cfeb456_rx_posneg_default;
   //
   //--------------------------------------------------------------
   //[0X16C] = ADR_PHASER8:  values in the xml file for cfeb6_rx or cfeb0123
   //--------------------------------------------------------------
-  cfeb6_rx_clock_delay_ = HasGroupedME11ABCFEBRxValues() == 1 ? cfeb456_rx_clock_delay_default : cfeb6_rx_clock_delay_default;
-  cfeb6_rx_posneg_      = HasGroupedME11ABCFEBRxValues() == 1 ? cfeb456_rx_posneg_default : cfeb6_rx_posneg_default     ;
+  cfeb6_rx_clock_delay_    = HasGroupedME11ABCFEBRxValues() == 1 ? cfeb456_rx_clock_delay_default : cfeb6_rx_clock_delay_default;
+  cfeb6_rx_fine_delay_     = HasGroupedME11ABCFEBRxValues() == 1 ? cfeb456_rx_fine_delay_default : cfeb6_rx_fine_delay_default;
+  cfeb6_rx_posneg_         = HasGroupedME11ABCFEBRxValues() == 1 ? cfeb456_rx_posneg_default : cfeb6_rx_posneg_default     ;
   cfeb0123_rx_clock_delay_ = cfeb0123_rx_clock_delay_default;
-  cfeb0123_rx_posneg_ = cfeb0123_rx_posneg_default; 
+  cfeb0123_rx_fine_delay_  = cfeb0123_rx_fine_delay_default;
+  cfeb0123_rx_posneg_      = cfeb0123_rx_posneg_default;
   //
   //--------------------------------------------------------------
   //[0X308] = ADR_PHASER9:  values in the xml file for GEMA or GEM A+B
   //--------------------------------------------------------------
   gemA_rx_clock_delay_ = HasGroupedGemRxValues() == 1 ? gem_rx_clock_delay_default : gemA_rx_clock_delay_default;
   gemA_rx_posneg_      = HasGroupedGemRxValues() == 1 ? gem_rx_posneg_default      : gemA_rx_posneg_default     ;
+  gemA_rx_fine_delay_  = gemA_rx_fine_delay_default;
+  //
   gem_rx_clock_delay_ = gem_rx_clock_delay_default;
   gem_rx_posneg_      = gem_rx_posneg_default;
+  gem_rx_fine_delay_  = gem_rx_fine_delay_default;
   //
   //--------------------------------------------------------------
   //[0X30A] = ADR_PHASER10:  values in the xml file for GEMA or GEM A+B
   //--------------------------------------------------------------
   gemB_rx_clock_delay_ = HasGroupedGemRxValues() == 1 ? gem_rx_clock_delay_default : gemB_rx_clock_delay_default;
   gemB_rx_posneg_      = HasGroupedGemRxValues() == 1 ? gem_rx_posneg_default      : gemB_rx_posneg_default     ;
+  gemB_rx_fine_delay_  = gemB_rx_fine_delay_default;
   //
   //--------------------------------------------------------------
   // 0X11C = ADR_DELAY0_INT:  CFEB to TMB "interstage" delays
@@ -8811,8 +8842,9 @@ void TMB::PrintTMBRegister(unsigned long int address) {
     //--------------------------------------------------------------
     if (HasGroupedME11ABCFEBRxValues() == 1) (*MyOutput_) << " ->CFEB0 to TMB communication clock IGNORED IN THIS VERSION:" << std::endl;
     (*MyOutput_) << " ->CFEB0 to TMB communication clock delay:" << std::endl;
-    (*MyOutput_) << "    CFEB0 rx clock delay    = " << std::dec << read_cfeb0_rx_clock_delay_ << std::endl;
-    (*MyOutput_) << "    CFEB0 posneg    = " << std::dec << read_cfeb0_rx_posneg_ << std::endl;
+    (*MyOutput_) << "    CFEB0 rx clock delay         = " << std::dec << read_cfeb0_rx_clock_delay_ << std::endl;
+    (*MyOutput_) << "    CFEB0 rx fine delay          = " << std::dec << read_cfeb0_rx_fine_delay_ << std::endl;
+    (*MyOutput_) << "    CFEB0 posneg                 = " << std::dec << read_cfeb0_rx_posneg_ << std::endl;
     //
   } else if ( address == phaser_cfeb1_rxd_adr ) {
     //--------------------------------------------------------------
@@ -8820,8 +8852,9 @@ void TMB::PrintTMBRegister(unsigned long int address) {
     //--------------------------------------------------------------
     if (HasGroupedME11ABCFEBRxValues() == 1) (*MyOutput_) << " ->CFEB1 to TMB communication clock IGNORED IN THIS VERSION:" << std::endl;
     (*MyOutput_) << " ->CFEB1 to TMB communication clock delay:" << std::endl;
-    (*MyOutput_) << "    CFEB1 rx clock delay    = " << std::dec << read_cfeb1_rx_clock_delay_ << std::endl;
-    (*MyOutput_) << "    CFEB1 posneg    = " << std::dec << read_cfeb1_rx_posneg_ << std::endl;
+    (*MyOutput_) << "    CFEB1 rx clock delay         = " << std::dec << read_cfeb1_rx_clock_delay_ << std::endl;
+    (*MyOutput_) << "    CFEB1 rx fine delay          = " << std::dec << read_cfeb1_rx_fine_delay_ << std::endl;
+    (*MyOutput_) << "    CFEB1 posneg                 = " << std::dec << read_cfeb1_rx_posneg_ << std::endl;
     //
   } else if ( address == phaser_cfeb2_rxd_adr ) {
     //--------------------------------------------------------------
@@ -8829,8 +8862,9 @@ void TMB::PrintTMBRegister(unsigned long int address) {
     //--------------------------------------------------------------
     if (HasGroupedME11ABCFEBRxValues() == 1) (*MyOutput_) << " ->CFEB2 to TMB communication clock IGNORED IN THIS VERSION:" << std::endl;
     (*MyOutput_) << " ->CFEB2 to TMB communication clock delay:" << std::endl;
-    (*MyOutput_) << "    CFEB2 rx clock delay    = " << std::dec << read_cfeb2_rx_clock_delay_ << std::endl;
-    (*MyOutput_) << "    CFEB2 posneg    = " << std::dec << read_cfeb2_rx_posneg_ << std::endl;
+    (*MyOutput_) << "    CFEB2 rx clock delay         = " << std::dec << read_cfeb2_rx_clock_delay_ << std::endl;
+    (*MyOutput_) << "    CFEB2 rx fine delay          = " << std::dec << read_cfeb2_rx_fine_delay_ << std::endl;
+    (*MyOutput_) << "    CFEB2 posneg                 = " << std::dec << read_cfeb2_rx_posneg_ << std::endl;
     //
   } else if ( address == phaser_cfeb3_rxd_adr ) {
     //--------------------------------------------------------------
@@ -8838,8 +8872,9 @@ void TMB::PrintTMBRegister(unsigned long int address) {
     //--------------------------------------------------------------
     if (HasGroupedME11ABCFEBRxValues() == 1) (*MyOutput_) << " ->CFEB3 to TMB communication clock IGNORED IN THIS VERSION:" << std::endl;
     (*MyOutput_) << " ->CFEB3 to TMB communication clock delay:" << std::endl;
-    (*MyOutput_) << "    CFEB3 rx clock delay    = " << std::dec << read_cfeb3_rx_clock_delay_ << std::endl;
-    (*MyOutput_) << "    CFEB3 posneg    = " << std::dec << read_cfeb3_rx_posneg_ << std::endl;
+    (*MyOutput_) << "    CFEB3 rx clock delay         = " << std::dec << read_cfeb3_rx_clock_delay_ << std::endl;
+    (*MyOutput_) << "    CFEB3 rx fine delay          = " << std::dec << read_cfeb3_rx_fine_delay_ << std::endl;
+    (*MyOutput_) << "    CFEB3 posneg                 = " << std::dec << read_cfeb3_rx_posneg_ << std::endl;
     //
   } else if ( address == phaser_cfeb4_rxd_adr ) {
     //--------------------------------------------------------------
@@ -8847,8 +8882,9 @@ void TMB::PrintTMBRegister(unsigned long int address) {
     //--------------------------------------------------------------
     if (HasGroupedME11ABCFEBRxValues() == 1) (*MyOutput_) << " ->CFEB4 to TMB communication clock IGNORED IN THIS VERSION:" << std::endl;
     (*MyOutput_) << " ->CFEB4 to TMB communication clock delay:" << std::endl;
-    (*MyOutput_) << "    CFEB4 rx clock delay    = " << std::dec << read_cfeb4_rx_clock_delay_ << std::endl;
-    (*MyOutput_) << "    CFEB4 posneg    = " << std::dec << read_cfeb4_rx_posneg_ << std::endl;
+    (*MyOutput_) << "    CFEB4 rx clock delay         = " << std::dec << read_cfeb4_rx_clock_delay_ << std::endl;
+    (*MyOutput_) << "    CFEB4 rx fine delay          = " << std::dec << read_cfeb4_rx_fine_delay_ << std::endl;
+    (*MyOutput_) << "    CFEB4 posneg                 = " << std::dec << read_cfeb4_rx_posneg_ << std::endl;
     //
   } else if ( address == phaser_cfeb456_rxd_adr ) {
     //--------------------------------------------------------------
@@ -8856,12 +8892,14 @@ void TMB::PrintTMBRegister(unsigned long int address) {
     //--------------------------------------------------------------
     if (HasGroupedME11ABCFEBRxValues() == 1){
       (*MyOutput_) << " ->CFEB456 to TMB communication clock delay:" << std::endl;
-      (*MyOutput_) << "    CFEB456 rx clock delay    = " << std::dec << read_cfeb456_rx_clock_delay_ << std::endl;
-      (*MyOutput_) << "    CFEB456 posneg    = " << std::dec << read_cfeb456_rx_posneg_ << std::endl;
+      (*MyOutput_) << "    CFEB456 rx clock delay     = " << std::dec << read_cfeb456_rx_clock_delay_ << std::endl;
+      (*MyOutput_) << "    CFEB456 rx fine delay      = " << std::dec << read_cfeb456_rx_fine_delay_ << std::endl;
+      (*MyOutput_) << "    CFEB456 posneg             = " << std::dec << read_cfeb456_rx_posneg_ << std::endl;
     } else {
       (*MyOutput_) << " ->CFEB5 to TMB communication clock delay:" << std::endl;
-      (*MyOutput_) << "    CFEB5 rx clock delay    = " << std::dec << read_cfeb5_rx_clock_delay_ << std::endl;
-      (*MyOutput_) << "    CFEB5 posneg    = " << std::dec << read_cfeb5_rx_posneg_ << std::endl;
+      (*MyOutput_) << "    CFEB5 rx clock delay       = " << std::dec << read_cfeb5_rx_clock_delay_ << std::endl;
+      (*MyOutput_) << "    CFEB5 rx fine delay        = " << std::dec << read_cfeb5_rx_fine_delay_ << std::endl;
+      (*MyOutput_) << "    CFEB5 posneg               = " << std::dec << read_cfeb5_rx_posneg_ << std::endl;
     }
       //
   } else if ( address == phaser_cfeb0123_rxd_adr ) {
@@ -8871,11 +8909,13 @@ void TMB::PrintTMBRegister(unsigned long int address) {
     if (HasGroupedME11ABCFEBRxValues() == 1){
       (*MyOutput_) << " ->CFEB0123 to TMB communication clock delay:" << std::endl;
       (*MyOutput_) << "    CFEB0123 rx clock delay    = " << std::dec << read_cfeb0123_rx_clock_delay_ << std::endl;
-      (*MyOutput_) << "    CFEB0123 posneg    = " << std::dec << read_cfeb0123_rx_posneg_ << std::endl;	
+      (*MyOutput_) << "    CFEB0123 rx fine delay     = " << std::dec << read_cfeb0123_rx_fine_delay_ << std::endl;
+      (*MyOutput_) << "    CFEB0123 posneg            = " << std::dec << read_cfeb0123_rx_posneg_ << std::endl;
     } else {
       (*MyOutput_) << " ->CFEB6 to TMB communication clock delay:" << std::endl;
-      (*MyOutput_) << "    CFEB6 rx clock delay    = " << std::dec << read_cfeb6_rx_clock_delay_ << std::endl;
-      (*MyOutput_) << "    CFEB6 posneg    = " << std::dec << read_cfeb6_rx_posneg_ << std::endl;	
+      (*MyOutput_) << "    CFEB6 rx clock delay       = " << std::dec << read_cfeb6_rx_clock_delay_ << std::endl;
+      (*MyOutput_) << "    CFEB6 rx fine delay        = " << std::dec << read_cfeb6_rx_fine_delay_ << std::endl;
+      (*MyOutput_) << "    CFEB6 posneg               = " << std::dec << read_cfeb6_rx_posneg_ << std::endl;
     }
     //
   } else if ( address == phaser_gemA_rxd_adr ) {
@@ -9648,31 +9688,31 @@ int TMB::FillTMBRegister(unsigned long int address) {
     //---------------------------------------------------------------------
     //0X112 = ADR_PHASER2: digital phase shifter for cfeb0
     //---------------------------------------------------------------------
-    data_word = ConvertDigitalPhaseToVMERegisterValues_(cfeb0_rx_clock_delay_,cfeb0_rx_posneg_);
+    data_word = ConvertDigitalPhaseToVMERegisterValues_(cfeb0_rx_clock_delay_,cfeb0_rx_posneg_,cfeb0_rx_fine_delay_);
     //
   } else if ( address == phaser_cfeb1_rxd_adr ) { 
     //---------------------------------------------------------------------
     //0X114 = ADR_PHASER3: digital phase shifter for cfeb1
     //---------------------------------------------------------------------
-    data_word = ConvertDigitalPhaseToVMERegisterValues_(cfeb1_rx_clock_delay_,cfeb1_rx_posneg_);
+    data_word = ConvertDigitalPhaseToVMERegisterValues_(cfeb1_rx_clock_delay_,cfeb1_rx_posneg_,cfeb1_rx_fine_delay_);
     //
   } else if ( address == phaser_cfeb2_rxd_adr ) { 
     //---------------------------------------------------------------------
     //0X116 = ADR_PHASER4: digital phase shifter for cfeb2
     //---------------------------------------------------------------------
-    data_word = ConvertDigitalPhaseToVMERegisterValues_(cfeb2_rx_clock_delay_,cfeb2_rx_posneg_);
+    data_word = ConvertDigitalPhaseToVMERegisterValues_(cfeb2_rx_clock_delay_,cfeb2_rx_posneg_, cfeb2_rx_fine_delay_);
     //
   } else if ( address == phaser_cfeb3_rxd_adr ) { 
     //---------------------------------------------------------------------
     //0X118 = ADR_PHASER5: digital phase shifter for cfeb3
     //---------------------------------------------------------------------
-    data_word = ConvertDigitalPhaseToVMERegisterValues_(cfeb3_rx_clock_delay_,cfeb3_rx_posneg_);
+    data_word = ConvertDigitalPhaseToVMERegisterValues_(cfeb3_rx_clock_delay_,cfeb3_rx_posneg_, cfeb3_rx_fine_delay_);
     //
   } else if ( address == phaser_cfeb4_rxd_adr ) { 
     //---------------------------------------------------------------------
     //0X11A = ADR_PHASER6: digital phase shifter for cfeb4
     //---------------------------------------------------------------------
-    data_word = ConvertDigitalPhaseToVMERegisterValues_(cfeb4_rx_clock_delay_,cfeb4_rx_posneg_);
+    data_word = ConvertDigitalPhaseToVMERegisterValues_(cfeb4_rx_clock_delay_,cfeb4_rx_posneg_, cfeb4_rx_fine_delay_);
     //
   } else if ( address == cfeb0_3_interstage_adr ) {    
     //---------------------------------------------------------------------
@@ -9765,10 +9805,10 @@ int TMB::FillTMBRegister(unsigned long int address) {
     //0X16A = ADR_PHASER7: digital phase shifter for cfeb456
     //---------------------------------------------------------------------
     if (HasGroupedME11ABCFEBRxValues() == 0){//is at least ME11
-      data_word = ConvertDigitalPhaseToVMERegisterValues_(cfeb5_rx_clock_delay_,cfeb5_rx_posneg_);
+      data_word = ConvertDigitalPhaseToVMERegisterValues_(cfeb5_rx_clock_delay_,cfeb5_rx_posneg_, cfeb5_rx_fine_delay_);
     }
     if (HasGroupedME11ABCFEBRxValues() == 1){
-      data_word = ConvertDigitalPhaseToVMERegisterValues_(cfeb456_rx_clock_delay_,cfeb456_rx_posneg_);
+      data_word = ConvertDigitalPhaseToVMERegisterValues_(cfeb456_rx_clock_delay_,cfeb456_rx_posneg_, cfeb456_rx_fine_delay_);
     }
     //
   } else if ( address == phaser_cfeb0123_rxd_adr ) {
@@ -9776,10 +9816,10 @@ int TMB::FillTMBRegister(unsigned long int address) {
     //0X16C = ADR_PHASER8: digital phase shifter for cfeb0123
     //---------------------------------------------------------------------
     if (HasGroupedME11ABCFEBRxValues() == 0){//is at least ME11
-      data_word = ConvertDigitalPhaseToVMERegisterValues_(cfeb6_rx_clock_delay_,cfeb6_rx_posneg_);
+      data_word = ConvertDigitalPhaseToVMERegisterValues_(cfeb6_rx_clock_delay_,cfeb6_rx_posneg_, cfeb6_rx_fine_delay_);
     }
     if (HasGroupedME11ABCFEBRxValues() == 1){
-      data_word = ConvertDigitalPhaseToVMERegisterValues_(cfeb0123_rx_clock_delay_,cfeb0123_rx_posneg_);
+      data_word = ConvertDigitalPhaseToVMERegisterValues_(cfeb0123_rx_clock_delay_,cfeb0123_rx_posneg_, cfeb0123_rx_fine_delay_);
     }
     //
   } else if ( address == phaser_gemA_rxd_adr ) {
@@ -9787,10 +9827,10 @@ int TMB::FillTMBRegister(unsigned long int address) {
     //0X308 = ADR_PHASER9: digital phase shifter for gemA / gemA+B
     //---------------------------------------------------------------------
     if (HasGroupedGemRxValues() == 0){
-      data_word = ConvertDigitalPhaseToVMERegisterValues_(gemA_rx_clock_delay_,gemA_rx_posneg_);
+      data_word = ConvertDigitalPhaseToVMERegisterValues_(gemA_rx_clock_delay_,gemA_rx_posneg_,gemA_rx_fine_delay_);
     }
     else {
-      data_word = ConvertDigitalPhaseToVMERegisterValues_(gem_rx_clock_delay_,gem_rx_posneg_);
+      data_word = ConvertDigitalPhaseToVMERegisterValues_(gem_rx_clock_delay_,gem_rx_posneg_,gem_rx_fine_delay_);
     }
     //
   } else if ( address == phaser_gemB_rxd_adr ) {
@@ -9798,10 +9838,10 @@ int TMB::FillTMBRegister(unsigned long int address) {
     //0X30A = ADR_PHASER10: digital phase shifter for gemB
     //---------------------------------------------------------------------
     if (HasGroupedGemRxValues() == 0){
-      data_word = ConvertDigitalPhaseToVMERegisterValues_(gemB_rx_clock_delay_,gemB_rx_posneg_);
+      data_word = ConvertDigitalPhaseToVMERegisterValues_(gemB_rx_clock_delay_,gemB_rx_posneg_,gemB_rx_fine_delay_);
     }
     else {
-      data_word = ConvertDigitalPhaseToVMERegisterValues_(gem_rx_clock_delay_,gem_rx_posneg_);
+      data_word = ConvertDigitalPhaseToVMERegisterValues_(gem_rx_clock_delay_,gem_rx_posneg_,gem_rx_fine_delay_);
     }
     //
   } else if ( address == dcfeb_inj_seq_trig_adr ) {
@@ -9858,7 +9898,7 @@ int TMB::FillTMBRegister(unsigned long int address) {
   return data_word;
 }
 //
-int TMB::ConvertDigitalPhaseToVMERegisterValues_(int digital_phase,int posneg) {
+int TMB::ConvertDigitalPhaseToVMERegisterValues_(int digital_phase,int posneg, int fine_phase) {
   //
   int data_word = 0;
   //
@@ -9866,7 +9906,7 @@ int TMB::ConvertDigitalPhaseToVMERegisterValues_(int digital_phase,int posneg) {
   //
   float float_maximum_number_of_phase_delay_values = (float) maximum_number_of_phase_delay_values;
   //
-  float float_phase_to_write = ( (float) digital_phase * ( float_number_of_available_bins_per_clock_cycle / float_maximum_number_of_phase_delay_values ) + 0.5);
+  float float_phase_to_write = ( ( (float) digital_phase + float(fine_phase)/10.0 )* ( float_number_of_available_bins_per_clock_cycle / float_maximum_number_of_phase_delay_values ) + 0.5);
   int phase_to_write         = ( (int) float_phase_to_write ) & 0xff;
   //
   int phase_value_within_quadrant   = phase_to_write & 0x3f;
@@ -9900,6 +9940,7 @@ void TMB::ConvertVMERegisterValuesToDigitalPhases_(unsigned long int vme_address
 				     ( float_maximum_number_of_phase_delay_values / float_number_of_available_bins_per_clock_cycle  ) + 0.5);
   //
   int read_digital_phase = ( (int) float_read_digital_phase ) & 0xff;
+  int read_fine_phase    = (int) (( float_read_digital_phase ) - read_digital_phase * 10.0);
   //
   if ( vme_address == phaser_alct_rxd_adr ) {
     //
@@ -9964,10 +10005,15 @@ void TMB::ConvertVMERegisterValuesToDigitalPhases_(unsigned long int vme_address
     //
     read_gemA_rx_posneg_      = posneg       ;
     read_gemA_rx_clock_delay_ = read_digital_phase;
+    read_gemA_rx_fine_delay_  = read_fine_phase;
+
     read_gemB_rx_posneg_      = posneg       ;
     read_gemB_rx_clock_delay_ = read_digital_phase;
+    read_gemB_rx_fine_delay_  = read_fine_phase;
+
     read_gem_rx_posneg_       = posneg       ;
     read_gem_rx_clock_delay_  = read_digital_phase;
+    read_gem_rx_fine_delay_   = read_fine_phase;
     //
   }
   //
@@ -10545,11 +10591,13 @@ void TMB::CheckTMBConfiguration(int max_number_of_reads) {
             //[0X308] = ADR_PHASER9:  GEM A
             //--------------------------------------------------------------
             config_ok &= compareValues("TMB gemA_delay"     , read_gemA_rx_clock_delay_ , gemA_rx_clock_delay_ , print_errors);
+            config_ok &= compareValues("TMB gemA_fine_delay", read_gemA_rx_fine_delay_  , gemA_rx_fine_delay_  , print_errors);
             config_ok &= compareValues("TMB gemA_rx_posneg" , read_gemA_rx_posneg_      , gemA_rx_posneg_      , print_errors);
             //--------------------------------------------------------------
             //[0X30A] = ADR_PHASER10:  GEM B
             //--------------------------------------------------------------
             config_ok &= compareValues("TMB gemB_delay"     , read_gemB_rx_clock_delay_ , gemB_rx_clock_delay_ , print_errors);
+            config_ok &= compareValues("TMB gemB_fine_delay", read_gemB_rx_fine_delay_  , gemB_rx_fine_delay_  , print_errors);
             config_ok &= compareValues("TMB gemB_rx_posneg" , read_gemB_rx_posneg_      , gemB_rx_posneg_      , print_errors);
         }
     }

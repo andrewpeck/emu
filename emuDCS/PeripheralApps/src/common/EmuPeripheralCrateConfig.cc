@@ -524,6 +524,7 @@ EmuPeripheralCrateConfig::EmuPeripheralCrateConfig(xdaq::ApplicationStub * s): E
   xgi::bind(this,&EmuPeripheralCrateConfig::TMB_to_ALCT_walking_ones, "TMB_to_ALCT_walking_ones");
   xgi::bind(this,&EmuPeripheralCrateConfig::CFEBTimingSimpleScan, "CFEBTimingSimpleScan");
   xgi::bind(this,&EmuPeripheralCrateConfig::RatTmbTiming, "RatTmbTiming");
+  xgi::bind(this,&EmuPeripheralCrateConfig::ScanGEMTMBDelay, "ScanGEMTMBDelay");
   xgi::bind(this,&EmuPeripheralCrateConfig::RpcRatTiming, "RpcRatTiming");
   xgi::bind(this,&EmuPeripheralCrateConfig::SetGEMdelay, "SetGEMdelay");
   xgi::bind(this,&EmuPeripheralCrateConfig::SetGEMPosneg, "SetGEMPosneg");
@@ -5426,8 +5427,44 @@ void EmuPeripheralCrateConfig::ChamberTests(xgi::Input * in, xgi::Output * out )
   //*out << cgicc::table() << std::endl;
 
 
+  *out << cgicc::br();
+  std::string ScanGEMTMBDelay = toolbox::toString("/%s/ScanGEMTMBDelay",getApplicationDescriptor()->getURN().c_str());
+  *out << cgicc::form().set("method","GET").set("action",ScanGEMTMBDelay) << std::endl ;
+  *out << "Parametrize GEM-TMB delay:" << std::endl;
+  *out << cgicc::br();
+  sprintf(buf,"%d",tmb);
+  *out << cgicc::input().set("type","text").set("value",buf).set("name","sleep_time")<<std::endl;
+  *out << "microseconds/bin"<<std::endl;
+  *out << cgicc::input().set("type","text").set("value",buf).set("name","step_time")<<std::endl;
+  *out << "picoseconds/step"<<std::endl;
+  *out << cgicc::br();
+  *out << cgicc::input().set("type","submit").set("value","Scan GEM-TMB Delay") << std::endl ;
+  sprintf(buf,"%d",tmb);
+  *out << cgicc::input().set("type","hidden").set("value",buf).set("name","tmb");
+  sprintf(buf,"%d",dmb);
+  *out << cgicc::input().set("type","hidden").set("value",buf).set("name","dmb");
+  *out << cgicc::form() << std::endl ;
+    
+      thisTMB->ReadRegister(phaser_gem_rxd_adr);
+      thisTMB->ReadRegister(phaser_cfeb456_rxd_adr);
+      thisTMB->ReadRegister(phaser_cfeb0123_rxd_adr);
+  for(int i=0;i<2;i++) {
+    *out << "gem" << i << "delay = " << MyTest[tmb][current_crate_].GetGEMrxPhaseDelay(i) 
+	 << " ("  << thisTMB->GetReadGemRxClockDelay() << ") "
+	 <<"    posneg = " << MyTest[tmb][current_crate_].GetGEMrxPosnegDelay(i) 
+	 << " ("  << thisTMB->GetReadGemRxPosNeg() << ") " <<std::endl;
+    *out << cgicc::br();
+  }
+  //TODO: write getcfeb delay in tmb.
+  for(int i=0;i<7;i++) {
+    *out << "cfeb" << i << "delay = " << MyTest[tmb][current_crate_].GetCFEBrxPhaseDelay(i) 
+	 << " ("  <<MyTest[tmb][current_crate_].GetCfebRxClockDelay(i) << ") "
+	 <<"    posneg = " << MyTest[tmb][current_crate_].GetCFEBrxPosnegDelay(i) 
+	 << " ("  << MyTest[tmb][current_crate_].GetCfebRxPosNeg(i) << ") " <<std::endl;
+    *out << cgicc::br();
+  }
 
-  /////in progress/////
+
   *out << cgicc::br(); 
   std::string SetGEMdelay = toolbox::toString("/%s/SetGEMdelay",getApplicationDescriptor()->getURN().c_str());
   *out << cgicc::form().set("method","GET").set("action",SetGEMdelay) << std::endl ;
@@ -7711,6 +7748,210 @@ void EmuPeripheralCrateConfig::RatTmbTiming(xgi::Input * in, xgi::Output * out )
   this->ChamberTests(in,out);
   //
 }
+
+void EmuPeripheralCrateConfig::ScanGEMTMBDelay(xgi::Input * in, xgi::Output * out ) 
+throw (xgi::exception::Exception) {
+
+    //for the following three: first dimension: 0=gem;1=me1A;2=me1B. second dimension for posneg
+    int errorcount[3][2][25];
+    int center [3][2];
+    int size   [3][2];  
+    int coarse_delay;
+    int fine_delay;
+    int posneg;
+    cgicc::Cgicc cgi(in);
+
+    int tmb=0;
+    TMB * thisTMB = tmbVector[tmb];
+    cgicc::form_iterator name2 = cgi.getElement("sleep_time");
+        int sleeptime=-1;
+        if(name2 != cgi.getElements().end())
+        {            
+            sleeptime=strtol(cgi["sleep_time"]->getValue().c_str(),NULL,10);
+        }
+    cgicc::form_iterator name3 = cgi.getElement("step_time");
+        int steptime=-1;
+        if(name3 != cgi.getElements().end())
+        {
+            steptime=strtol(cgi["step_time"]->getValue().c_str(),NULL,10);
+        }
+    //std::cout<<std::endl<<"sleeptime is "<<sleeptime;
+    if (steptime>1000||steptime<100)
+        {std::cout<<"steptime out of range";
+        return;}
+    int fine_delayloops=1000/steptime;
+
+    //get the initial cfeb,gem delay/posneg value progress
+      thisTMB->ReadRegister(phaser_cfeb456_rxd_adr);
+      thisTMB->ReadRegister(phaser_cfeb0123_rxd_adr);
+      thisTMB->ReadRegister(phaser_gem_rxd_adr);
+      int initial_cfeb0123_Phase = thisTMB->GetReadCfeb0123RxClockDelay();
+      int initial_cfeb456_Phase = thisTMB->GetReadCfeb456RxClockDelay();
+      int initial_cfeb0123_Posneg = thisTMB->GetReadCfeb0123RxPosNeg();
+      int initial_cfeb456_Posneg = thisTMB->GetReadCfeb456RxPosNeg();
+
+      int initial_gem_phase = thisTMB->GetReadGemRxClockDelay();
+      int initial_gem_posneg = thisTMB->GetReadGemRxPosNeg();
+    for (posneg=0; posneg<2; posneg++) {
+
+        for (coarse_delay=0; coarse_delay<25; coarse_delay++) {
+
+            // reset error count
+            for (int i=0;i<3;i++)
+                errorcount[i][posneg][coarse_delay]=0;
+            int cfeb0123_errors_vec[4];
+            int cfeb456_errors_vec[3];
+
+            for (fine_delay=0; fine_delay<fine_delayloops; fine_delay+=1) {
+
+                int cfeb0123_errors = 0;
+                int cfeb456_errors = 0;
+
+                thisTMB->SetGemRxPosNeg     ( posneg);
+                thisTMB->SetGemRxClockDelay ( coarse_delay);
+                thisTMB->SetGemRxFineDelay  ( fine_delay);
+
+                thisTMB->FillTMBRegister ( phaser_gem_rxd_adr);
+                thisTMB->WriteRegister   ( phaser_gem_rxd_adr);
+                thisTMB->FirePhaser      ( phaser_gem_rxd_adr);
+
+
+                int cfeb=1;
+                if (cfeb) {
+
+                    thisTMB->SetCfeb0123RxPosNeg     ( posneg);
+                    thisTMB->SetCfeb0123RxClockDelay ( coarse_delay);
+                    thisTMB->SetCfeb0123RxFineDelay  ( fine_delay);
+
+                    thisTMB->FillTMBRegister ( phaser_cfeb0123_rxd_adr);
+                    thisTMB->WriteRegister   ( phaser_cfeb0123_rxd_adr);
+                    thisTMB->FirePhaser      ( phaser_cfeb0123_rxd_adr);
+
+                    thisTMB->SetCfeb456RxPosNeg     ( posneg);
+                    thisTMB->SetCfeb456RxClockDelay ( coarse_delay);
+                    thisTMB->SetCfeb456RxFineDelay  ( fine_delay);
+
+                    thisTMB->FillTMBRegister ( phaser_cfeb456_rxd_adr);
+                    thisTMB->WriteRegister   ( phaser_cfeb456_rxd_adr);
+                    thisTMB->FirePhaser      ( phaser_cfeb456_rxd_adr);
+
+                    // Send a resync to clear CFEB counters;
+                    // redirect the CCB output to shut it up from clogging cout
+                    streambuf *old = cout.rdbuf(); // save
+                    stringstream ss;
+                    cout.rdbuf (ss.rdbuf());       // redirect cout to outer space
+
+                    thisCCB->setCCBMode(CCB::VMEFPGA);
+                    thisCCB->syncReset(); 
+                    thisCCB->setCCBMode(CCB::DLOG);
+                    //thisCCB->bc0(); // Start triggering
+                    cout.rdbuf (old);              // restore cout
+                }
+
+                thisTMB->ResetCounters();
+                //std::cout<<std::endl<<"sleeping, fine delay = "<<fine_delay<<" coarse delay is "<<coarse_delay<<std::endl;
+                usleep(sleeptime);
+
+                thisTMB->GetCounters();
+
+                if (cfeb) {
+                    thisTMB->ReadDcfebGtxRxRegisters();
+                    for (int i=0; i<4; i++) {
+                        cfeb0123_errors_vec[i] = thisTMB->GetReadGtxRxErrorCount(i);
+                        cfeb0123_errors += cfeb0123_errors_vec[i];
+                    }
+                    for (int i=0; i<3; i++) {
+                        cfeb456_errors_vec[i] = thisTMB->GetReadGtxRxErrorCount(i+4);
+                        cfeb456_errors += cfeb456_errors_vec[i];
+                    }
+                }
+
+                errorcount[0][posneg][coarse_delay]+= (thisTMB->GetGemCounter(0)+thisTMB->GetGemCounter(1));
+                errorcount[1][posneg][coarse_delay]+= cfeb456_errors;
+                errorcount[2][posneg][coarse_delay]+= cfeb0123_errors;
+
+ char *output;
+               // asprintf(&output, "delay=%3d | %20d  | %20d\n", coarse_delay, errorcount[0][coarse_delay], errorcount[1][coarse_delay]);
+               // char *output;
+                asprintf(&output, "posneg=%1d, delay=%4.1f, gemA=%7d, gemB=%7d, me1A=%7d (%4d + %4d + %4d), me1B=%7d (%4d + %4d + %4d + %4d)\n",
+                        posneg,
+                        float(coarse_delay) + float(fine_delay)/fine_delayloops,
+                        thisTMB->GetGemCounter(0),
+                        thisTMB->GetGemCounter(1),
+                        cfeb456_errors,
+                        cfeb456_errors_vec[0],
+                        cfeb456_errors_vec[1],
+                        cfeb456_errors_vec[2],
+                        cfeb0123_errors,
+                        cfeb0123_errors_vec[0],
+                        cfeb0123_errors_vec[1],
+                        cfeb0123_errors_vec[2],
+                        cfeb0123_errors_vec[3]
+                        
+                        );
+
+                std::cout << output;
+                ChamberTestsOutput[tmb][current_crate_] << output; // copy to on-screen web printout
+
+            }
+
+        }
+        for (int i=0; i<3; i++)
+        {        
+            center[i][posneg] = MyTest[tmb][current_crate_].me11_wraparound_best_center(                errorcount[i][posneg]);
+            size  [i][posneg] = MyTest[tmb][current_crate_].me11_window_width          (center[i][posneg], errorcount[i][posneg]);
+        }
+        std::cout<<std::endl<<"for posneg "<<posneg
+                <<" best center for gem = " << center[0][posneg] << " width=" << size[0][posneg]<< std::endl
+                <<" best center for me1a= " << center[1][posneg] << " width=" << size[1][posneg]<< std::endl
+                <<" best center for me1b= " << center[2][posneg] << " width=" << size[2][posneg]<< std::endl;
+
+    }
+    int best_posneg[3]; 
+    for (int i=0;i<3;i++)
+        best_posneg[i] = size[i][0] > size[i][1] ? 0 : 1;
+    std::cout<<std::endl<<"best posneg for gem= " << best_posneg[0] <<" center= " << center[0][best_posneg[0]] 
+                                                                    <<" width=" << size[0][best_posneg[0]] << std::endl
+                        <<"best posneg for me1a= " << best_posneg[1] <<" center= " << center[1][best_posneg[1]] 
+                                                                     << " width=" << size[1][best_posneg[1]] << std::endl
+                        <<"best posneg for me1b= " << best_posneg[2] <<" center= " << center[2][best_posneg[2]] 
+                                                                     << " width=" << size[2][best_posneg[2]] << std::endl;
+
+//in progress2
+    for (int i=0; i<2; i++) 
+    {
+         MyTest[tmb][current_crate_].SetGEMrxPhaseDelay(i,center[0][best_posneg[0]]);
+         MyTest[tmb][current_crate_].SetGEMrxPosnegDelay(i,best_posneg[0]);
+    }
+    for (int i=0; i<4; i++) 
+    {
+         MyTest[tmb][current_crate_].SetCFEBrxPhaseDelay(i,center[2][best_posneg[2]]);
+         MyTest[tmb][current_crate_].SetCFEBrxPosnegDelay(i,best_posneg[2]);
+    }
+    for (int i=0; i<3; i++) 
+    {
+         MyTest[tmb][current_crate_].SetCFEBrxPhaseDelay(i+4,center[1][best_posneg[1]]);
+         MyTest[tmb][current_crate_].SetCFEBrxPosnegDelay(i+4,best_posneg[1]);
+    }
+//Reverting back to original cfeb/gem delay values
+      thisTMB->SetCfeb456RxClockDelay(initial_cfeb0123_Phase);
+      thisTMB->SetCfeb456RxPosNeg(initial_cfeb456_Posneg);
+      thisTMB->WriteRegister(phaser_cfeb456_rxd_adr);
+      thisTMB->FirePhaser(phaser_cfeb456_rxd_adr);
+      //
+      thisTMB->SetCfeb0123RxClockDelay(initial_cfeb0123_Phase);
+      thisTMB->SetCfeb0123RxPosNeg(initial_cfeb0123_Posneg);
+      thisTMB->WriteRegister(phaser_cfeb0123_rxd_adr);
+      thisTMB->FirePhaser(phaser_cfeb0123_rxd_adr);
+      //
+      thisTMB->SetGemRxPosNeg     ( initial_gem_posneg);
+      thisTMB->SetGemRxClockDelay ( initial_gem_phase);
+      thisTMB->FillTMBRegister ( phaser_gem_rxd_adr);
+      thisTMB->WriteRegister   ( phaser_gem_rxd_adr);
+      thisTMB->FirePhaser      ( phaser_gem_rxd_adr);
+
+    this->ChamberTests(in,out);
+}
 //
 void EmuPeripheralCrateConfig::RpcRatTiming(xgi::Input * in, xgi::Output * out ) 
   throw (xgi::exception::Exception) {
@@ -7761,6 +8002,7 @@ void EmuPeripheralCrateConfig::TMBPrintCounters(xgi::Input * in, xgi::Output * o
   thisTMB->RedirectOutput(&OutputStringTMBStatus[tmb]);
   thisTMB->GetCounters();
   thisTMB->PrintCounters();
+  thisTMB->PrintGemCounters();
   thisTMB->RedirectOutput(&std::cout);
   LOG4CPLUS_INFO(getApplicationLogger(), "Done PrintCounters");
   //
@@ -7817,6 +8059,7 @@ void EmuPeripheralCrateConfig::TMBCounterForFixedTime(xgi::Input * in, xgi::Outp
   thisTMB->RedirectOutput(&OutputStringTMBStatus[tmb]);
   thisTMB->GetCounters();
   thisTMB->PrintCounters();
+  thisTMB->PrintGemCounters();
   thisTMB->RedirectOutput(&std::cout);
   //
   this->TMBUtils(in,out);
@@ -12819,7 +13062,7 @@ std::string EmuPeripheralCrateConfig::GetFormString(const std::string& form_elem
   return form_value;
 }
 
-////////in progress2//////////
+
 void   EmuPeripheralCrateConfig::SetGEMPosneg(xgi::Input * in, xgi::Output * out )
 throw (xgi::exception::Exception)
 {   
