@@ -423,6 +423,10 @@ public:
   //
   // Get parameters from test summary results (not xml parameters):
   inline int  GetCFEBrxPhaseTest(int CFEB) { return CFEBrxPhase_[CFEB] ; }
+  inline int  GetGEMrxPhaseDelay(int GEM) { return GEMrxPhaseDelay_[GEM][0] ; }
+  inline int  GetGEMrxPosnegDelay(int GEM) { return GEMrxPhaseDelay_[GEM][1] ; }
+  inline int  GetCFEBrxPhaseDelay(int CFEB) { return CFEBrxPhaseDelay_[CFEB][0] ; }
+  inline int  GetCFEBrxPosnegDelay(int CFEB) { return CFEBrxPhaseDelay_[CFEB][1] ; }
   inline int  GetCFEBrxPosnegTest(int CFEB){ return CFEBrxPosneg_[CFEB] ; }
   inline int  GetCFEBrxdIntDelayTest(int CFEB) { return cfeb_rxd_int_delay[CFEB] ; }
   inline int  GetALCTrxPhaseTest()         { return ALCTrxPhase_ ; }
@@ -461,6 +465,10 @@ public:
   //
   // Set the parameters from test summary file (not xml):
   inline void SetCFEBrxPhaseTest(int CFEB, int value) { CFEBrxPhase_[CFEB] = value ; }
+  inline void SetGEMrxPhaseDelay(int GEM, int value) { GEMrxPhaseDelay_[GEM][0]=value; }
+  inline void SetGEMrxPosnegDelay(int GEM, int value) { GEMrxPhaseDelay_[GEM][1] = value ; }
+  inline void SetCFEBrxPhaseDelay(int CFEB, int value) { CFEBrxPhaseDelay_[CFEB][0]=value; }
+  inline void SetCFEBrxPosnegDelay(int CFEB, int value) { CFEBrxPhaseDelay_[CFEB][1] = value ; }
   inline void SetALCTrxPhaseTest(int value)           { ALCTrxPhase_ = value ; }
   inline void SetALCTtxPhaseTest(int value)           { ALCTtxPhase_ = value ; }
   inline void SetAlctRxPosNegTest(int value)          { ALCTrxPosNeg_ = value ; }
@@ -517,6 +525,8 @@ private:
   //
   int CFEBrxPhase_[7];
   int CFEBrxPosneg_[7];
+  int GEMrxPhaseDelay_[2][2];//for the second argument 0=phasedelay;1=posneg
+  int CFEBrxPhaseDelay_[7][2];
   int cfeb_rxd_int_delay[7];
   int ALCTtxPhase_;
   int ALCTrxPhase_;
