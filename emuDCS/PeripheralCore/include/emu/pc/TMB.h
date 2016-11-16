@@ -2825,7 +2825,7 @@ private:
   //
   // The following is actually the MaxCounter in TMB + 1 (i.e., they count from 0)
   static const int MaxCounter = 93;
-  static const int MaxGEMCounter = 58;
+  static const int MaxGEMCounter = 59;
   int FinalCounter[MaxCounter+40];
   int FinalGEMCounter[MaxGEMCounter+1];
   int alct_sent_to_tmb_counter_index_;
