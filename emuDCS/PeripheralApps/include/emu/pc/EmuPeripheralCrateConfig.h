@@ -108,7 +108,7 @@ protected:
   xdata::String curlCookies_;         // file for cookies
   xdata::String CMSUserFile_;         // file that contains the username:password for CMS user
   xdata::String eLogUserFile_;        // file that contains the username:password for eLog user
-  xdata::String eLogURL_;             // eLog's URL 
+  xdata::String eLogURL_;             // eLog's URL
   //
   xdata::String TestLogFile_;
   xdata::String myCounter_;
@@ -119,7 +119,7 @@ protected:
   //
   xdata::String CalibType_;
   xdata::UnsignedInteger CalibNumber_;
-  std::string CalibTypeStr_; 
+  std::string CalibTypeStr_;
   //
   std::string xmlFile;
   xdata::UnsignedLong myParameter_;
@@ -185,7 +185,7 @@ protected:
   unsigned int total_crates_;
   int this_crate_no_;
   std::string ThisCrateID_;
-  
+
   std::vector< std::string> monitorables_;
   bool Monitor_On_, Monitor_Ready_;
   xdata::UnsignedShort fastloop, slowloop, extraloop;
@@ -216,9 +216,9 @@ protected:
   std::string VCC_UTIL_cmn_tsk_cc;
   std::string VCC_UTIL_cmn_tsk_lpbk;
   std::string VCC_UTIL_cmn_tsk_lpbk_color;
-  std::string VCC_UTIL_Frmw_rbk_[8]; 
-  std::string VCC_UTIL_base_addr_inp; 
-  std::string VCC_UTIL_prom_file_inp; 
+  std::string VCC_UTIL_Frmw_rbk_[8];
+  std::string VCC_UTIL_base_addr_inp;
+  std::string VCC_UTIL_prom_file_inp;
   std::string VCC_UTIL_proj;
   std::string VCC_UTIL_maj_ver;
   std::string VCC_UTIL_min_ver;
@@ -304,7 +304,7 @@ protected:
   std::string VCC_UTIL_PKTRCV_pkt_type;
   std::string VCC_UTIL_PKTRCV_pkt_cmnd;
   std::string VCC_UTIL_PKTRCV_rbk_data;
-  
+
   //
   EmuEndcap * emuEndcap_;
   //
@@ -326,176 +326,176 @@ private:
 
   void postToELog( std::string subject, std::string body );
   void stateChanged(toolbox::fsm::FiniteStateMachine &fsm) throw (toolbox::fsm::exception::Exception);
-  void MyHeader(xgi::Input * in, xgi::Output * out, std::string title ) throw (xgi::exception::Exception); 
+  void MyHeader(xgi::Input * in, xgi::Output * out, std::string title ) throw (xgi::exception::Exception);
   //
   bool ParsingXML();
   void SetCurrentCrate(int crate);
   int current_crate_;
-  void setConfFile(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void UploadConfFile(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
+  void setConfFile(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void UploadConfFile(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   //
-  void DefineConfiguration(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void CalibrationRuns(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void CrateConfiguration(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void ConfigIDSelection(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void setRawConfFile(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void CrateSelection(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void ConfigAllCrates(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void FastConfigCrates(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void FastConfigOne(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
+  void DefineConfiguration(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void CalibrationRuns(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void CrateConfiguration(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void ConfigIDSelection(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void setRawConfFile(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void CrateSelection(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void ConfigAllCrates(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void FastConfigCrates(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void FastConfigOne(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void ConfigureInit(int c, int ID=0);
-  void ConfigOneCrate(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void ConfigDCFEBs(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void InitChamber(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
+  void ConfigOneCrate(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void ConfigDCFEBs(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void InitChamber(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   //
   // Calibration
-  void CalibrationALCTThresholdScan(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void CalibrationALCTConnectivity(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void CalibrationCFEBConnectivity(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void FindLv1aDelayComparator(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void FindLv1aDelayALCT(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void CalibrationCFEBGain(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void CalibrationCFEBSaturation(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void CalibrationCFEBXtalk(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void CalibrationComparatorPulse(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void CalibrationCFEBPedestal(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void CrateDumpConfiguration(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
+  void CalibrationALCTThresholdScan(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void CalibrationALCTConnectivity(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void CalibrationCFEBConnectivity(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void FindLv1aDelayComparator(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void FindLv1aDelayALCT(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void CalibrationCFEBGain(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void CalibrationCFEBSaturation(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void CalibrationCFEBXtalk(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void CalibrationComparatorPulse(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void CalibrationCFEBPedestal(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void CrateDumpConfiguration(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
 
   // status pages
   void TMBStatus(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void ALCTStatus(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void RATStatus(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
-  void DMBStatus(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
+  void DMBStatus(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void CFEBStatus(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void CCBStatus(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void MPCStatus(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
-  void CrateStatus(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
+  void CrateStatus(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void DDUStatus(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void LVMBStatus(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void ODMBCounters(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   //
   // Crate tests
-  void CrateTests(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void TmbMPCTest(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void MPCSafeWindowScan(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void PowerUp(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
+  void CrateTests(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void TmbMPCTest(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void MPCSafeWindowScan(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void PowerUp(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   //
   // CCB tests
-  void CCBTests(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void CCBTestAll(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void CCBSetTestLoops(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
+  void CCBTests(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void CCBTestAll(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void CCBSetTestLoops(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   //
   // TMB tests
   void TMBTests(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
-  void testTMB(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
+  void testTMB(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   //
   // DMB tests
-  void DMBTests(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void DMBTestAll(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void DMBTest3(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void DMBTest4(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void DMBTest5(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void DMBTest6(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void DMBTest8(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void DMBTest9(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void DMBTest10(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void DMBTest11(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void RTRGlow(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void RTRGhigh(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void DMBPrintCounters(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
+  void DMBTests(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void DMBTestAll(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void DMBTest3(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void DMBTest4(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void DMBTest5(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void DMBTest6(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void DMBTest8(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void DMBTest9(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void DMBTest10(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void DMBTest11(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void RTRGlow(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void RTRGhigh(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void DMBPrintCounters(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   //
   // DMB utils
-  void DMBUtils(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void ReadDMBRegister(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void WriteDMBRegister(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
+  void DMBUtils(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void ReadDMBRegister(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void WriteDMBRegister(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void DMBConfigure(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
-  void DMBCheckConfiguration(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
+  void DMBCheckConfiguration(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void DCFEBTests(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void PipelineDepthScan(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void L1ALCTScan(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void OTMBDAVScan(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void ALCTDAVScan(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void MakeReference(xgi::Input * in , xgi::Output * out );
-  void DMBTurnOff(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void CFEBTurnOn(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void DMBLoadFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void DMBLoadFPGA(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void DMBReadFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void DMBVmeLoadFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void DMBVmeLoadFirmwareEmergency(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void CFEBLoadFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void CCBHardResetFromDMBPage(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);  
-  void CFEBReadFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void CFEBLoadFirmwareID(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
+  void DMBTurnOff(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void CFEBTurnOn(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void DMBLoadFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void DMBLoadFPGA(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void DMBReadFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void DMBVmeLoadFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void DMBVmeLoadFirmwareEmergency(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void CFEBLoadFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void CCBHardResetFromDMBPage(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void CFEBReadFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void CFEBLoadFirmwareID(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
 	void ScanCFEBVirtex(DAQMB *const thisDMB, Chamber *const thisChamber, std::ofstream &LogFileCheckCFEBVtx,
 		const std::string &checkDir) throw (xgi::exception::Exception);
-  void RdVfyCFEBVirtex(const int dmbIndex) throw (xgi::exception::Exception); 
-  void RdVfyCFEBVirtexDMB(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void RdVfyCFEBVirtexExpT(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void DMBTurnOn(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void CFEBUtils(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void CFEBFunction(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void DCFEBPromTest(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void DCFEBPromTestFast(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void AllDCFEBsPromTestFast(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void DCFEBParaPrint(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void DCFEBParaErase(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void DCFEBReadFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void DCFEBProgramFpga(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void DCFEBProgramFpgaAll(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void DCFEBProgramEprom(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void DCFEBProgramEpromOffset(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void DCFEBProgramEpromSVF(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void DCFEBProgramEpromXilinx(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void DCFEBProgramEpromAll(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void ODMBLoadFirmwarePoll(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void RestoreCfebJtagIdle(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void ReadDcfebVirtex6Reg(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-    
+  void RdVfyCFEBVirtex(const int dmbIndex) throw (xgi::exception::Exception);
+  void RdVfyCFEBVirtexDMB(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void RdVfyCFEBVirtexExpT(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void DMBTurnOn(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void CFEBUtils(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void CFEBFunction(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void DCFEBPromTest(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void DCFEBPromTestFast(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void AllDCFEBsPromTestFast(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void DCFEBParaPrint(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void DCFEBParaErase(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void DCFEBReadFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void DCFEBProgramFpga(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void DCFEBProgramFpgaAll(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void DCFEBProgramEprom(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void DCFEBProgramEpromOffset(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void DCFEBProgramEpromSVF(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void DCFEBProgramEpromXilinx(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void DCFEBProgramEpromAll(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void ODMBLoadFirmwarePoll(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void RestoreCfebJtagIdle(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void ReadDcfebVirtex6Reg(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+
   //
   // TMB utils
-  void TMBUtils(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void ReadTMBRegister(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void WriteTMBRegister(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
+  void TMBUtils(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void ReadTMBRegister(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void WriteTMBRegister(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void CheckCrateControllerFromTMBPage(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
-  void LoadTMBFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
+  void LoadTMBFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void LoadCrateTMBFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
-  void CCBHardResetFromTMBPage(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);  
-  void CheckTMBFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void ClearTMBBootReg(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void CheckAbilityToLoadALCT(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void LoadALCTFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void LoadCrateALCTFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void LoadRATFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void EraseRATFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void TMBDumpAllRegisters(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
+  void CCBHardResetFromTMBPage(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void CheckTMBFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void ClearTMBBootReg(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void CheckAbilityToLoadALCT(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void LoadALCTFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void LoadCrateALCTFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void LoadRATFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void EraseRATFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void TMBDumpAllRegisters(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void TMBFiberReset(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
-  void TMBClearUserProms(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void HardResetTmbFpga(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void UnjamTMB(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void UnjamTmbFpga(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void TMBConfigure(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void TMBReadConfiguration(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void TMBCheckConfiguration(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void TMBReadStateMachines(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
+  void TMBClearUserProms(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void HardResetTmbFpga(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void UnjamTMB(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void UnjamTmbFpga(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void TMBConfigure(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void TMBReadConfiguration(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void TMBCheckConfiguration(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void TMBReadStateMachines(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void TMBCheckStateMachines(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
-  void TMBResetSyncError(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);  
-  void TMBRawHits(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void ALCTRawHits(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
+  void TMBResetSyncError(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void TMBRawHits(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void ALCTRawHits(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void GEMRawHits(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
-  void DisableALCTTestPulse(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void TMBPrintCounters(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void TMBResetCounters(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void TMBCounterForFixedTime(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void TriggerTestInjectALCT(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void armScope(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void forceScope(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void readoutScope(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
+  void DisableALCTTestPulse(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void TMBPrintCounters(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void TMBResetCounters(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void TMBCounterForFixedTime(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void TriggerTestInjectALCT(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void armScope(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void forceScope(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void readoutScope(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void TriggerTestInjectCLCT(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void OTMBLoadFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void TMBReadFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void SerialLoadCrateTMBFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
-  
+
   void TMBBPIReset(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void TMBBPIDisable(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void TMBBPIEnable(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
@@ -504,7 +504,7 @@ private:
   void TMBBPIReadN(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void TMBBPIStatus(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void TMBBPITimerRead(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
-  
+
   void TMBBPIPromTimerReset(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void TMBBPIPromTimerStop(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void TMBBPIPromTimerStart(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
@@ -513,16 +513,16 @@ private:
   void TMBBPIPromBlockUnlock(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void TMBBPIPromBlockErase(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void TMBBPIPromBlockLock(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
-  
+
   void ALCTReadFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void LoadALCTSlowFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
-  void LoadVirtex6TMBFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);  
-  void LoadVirtex6TMBFPGA(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);  
+  void LoadVirtex6TMBFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void LoadVirtex6TMBFPGA(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void LoadSpartan6ALCTFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
-  void ReadOTMBVirtex6Reg(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
+  void ReadOTMBVirtex6Reg(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   //
   // VCC utils
-  void VCCHeader(xgi::Input * in, xgi::Output * out, std::string title, std::string heading ) throw (xgi::exception::Exception); 
+  void VCCHeader(xgi::Input * in, xgi::Output * out, std::string title, std::string heading ) throw (xgi::exception::Exception);
   void ControllerUtils_Xfer(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void ControllerUtils(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void VMECC_UTIL_Menu_Buttons(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
@@ -553,11 +553,11 @@ private:
   //
   // MPC utils
   void MPCUtils(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
-  void ReadMPCRegister(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void WriteMPCRegister(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void MPCLoadFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void MPCLoadFirmwareMCS(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void MPCMask(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
+  void ReadMPCRegister(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void WriteMPCRegister(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void MPCLoadFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void MPCLoadFirmwareMCS(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void MPCMask(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void MPCConfig(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void MPCReadFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void MPColdPRBS(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
@@ -568,12 +568,12 @@ private:
   //
   // CCB utils
   void CCBUtils(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
-  void ReadCCBRegister(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void WriteCCBRegister(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void CCBLoadFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void ReadTTCRegister(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void HardReset(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void CCBFPGAReset(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
+  void ReadCCBRegister(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void WriteCCBRegister(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void CCBLoadFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void ReadTTCRegister(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void HardReset(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void CCBFPGAReset(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void CCBConfig(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void CCBReadFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void CCBSignals(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
@@ -585,84 +585,84 @@ private:
   void GEMProgramEPROM(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);  //
   void GEMHardreset(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);  //
   void GEMSetMUX(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);  //
-  
+
   // DDU utils
   void DDUUtils(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   //
   // synchronization functions
-  void ChamberTests(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void setupCoincidencePulsing(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void setTMBCounterReadValues(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void setDataReadValues(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void Automatic(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
+  void ChamberTests(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void setupCoincidencePulsing(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void setTMBCounterReadValues(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void setDataReadValues(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void Automatic(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void CFEBTimingSimpleScan(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
-  void TMBL1aTiming(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void ALCTL1aTiming(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  //  void ALCTvpf(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void ALCTScan(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void CFEBScan(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void FindDistripHotChannel(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void FindWinner(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void AlctDavCableDelay(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void TmbLctCableDelay(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void CfebDavCableDelay(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void PrintDmbValuesAndScopes(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void RatTmbTiming(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void ScanGEMTMBDelay(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void RpcRatTiming(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void ALCT_TMB_communication(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void ALCT_TMB_Loopback(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void TMB_to_ALCT_walking_ones(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void SetGEMdelay (xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void TMBL1aTiming(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void ALCTL1aTiming(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  //  void ALCTvpf(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void ALCTScan(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void CFEBScan(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void FindDistripHotChannel(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void FindWinner(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void AlctDavCableDelay(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void TmbLctCableDelay(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void CfebDavCableDelay(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void PrintDmbValuesAndScopes(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void RatTmbTiming(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void ScanOTMBFiberDelays(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void RpcRatTiming(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void ALCT_TMB_communication(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void ALCT_TMB_Loopback(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void TMB_to_ALCT_walking_ones(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void SetGEMPhase (xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void SetGEMPosneg (xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
-  void SetGEMintdelay (xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void SetGEMIntDelay (xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   //
   // synchronization functions looping over CSC's
-  void MeasureL1AsAndDAVsForCrate(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
+  void MeasureL1AsAndDAVsForCrate(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void MeasureL1AsAndDAVsForChamber(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
-  void MeasureL1AsAndDAVsForSystem(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);  
-  void MeasureDAVsForSystem(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);  
-  void MeasureL1AsForCrate(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void MeasureDAVsForCrate(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void MeasureALCTTMBRxTxForCrate(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
+  void MeasureL1AsAndDAVsForSystem(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void MeasureDAVsForSystem(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void MeasureL1AsForCrate(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void MeasureDAVsForCrate(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void MeasureALCTTMBRxTxForCrate(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void MeasureALCTTMBRxTxForSystem(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
-  void QuickScanForChamber(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void QuickScanForCrate(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void QuickScanForSystem(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);  
+  void QuickScanForChamber(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void QuickScanForCrate(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void QuickScanForSystem(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void MeasureODMBDelaysForCrate(xgi::Input* in, xgi::Output* out) throw(xgi::exception::Exception);
   void MeasurePipelineDepthForCrate(xgi::Input* in, xgi::Output* out) throw(xgi::exception::Exception);
   void MeasureODMBDelaysForEndcap(xgi::Input* in, xgi::Output* out) throw(xgi::exception::Exception);
   void MeasurePipelineDepthForEndcap(xgi::Input* in, xgi::Output* out) throw(xgi::exception::Exception);
-  void PipelineDepthScanForCrate (xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);  
-  void PipelineDepthScanForSystem(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);  
+  void PipelineDepthScanForCrate (xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void PipelineDepthScanForSystem(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void CFEBTimingSimpleScanSystem_me11(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void CFEBTimingSimpleScanSystem_non_me11(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
 
   //
   // BC0 scan functions
-  void ALCTBC0Scan(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void ALCTBC0ScanForCrate(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void ALCTBC0ScanForSystem(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void Settmb_bxn_offset(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
+  void ALCTBC0Scan(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void ALCTBC0ScanForCrate(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void ALCTBC0ScanForSystem(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void Settmb_bxn_offset(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   //
   // Output logging
-  void LogCCBTestsOutput(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void LogDMBTestsOutput(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void LogTestSummary(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void LogOutput(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void LogTMBTestsOutput(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void LogChamberTestsOutput(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void LogCrateTestsOutput(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void LogALCT_TMB_communicationOutput(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void CheckCrates(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
+  void LogCCBTestsOutput(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void LogDMBTestsOutput(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void LogTestSummary(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void LogOutput(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void LogTMBTestsOutput(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void LogChamberTestsOutput(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void LogCrateTestsOutput(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void LogALCT_TMB_communicationOutput(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void CheckCrates(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   //
   // Configuration and firmware checks
-  void CheckConfigurationPage(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void CheckTimeSinceHardReset(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void CheckBC0Synchronization(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void CheckCratesConfiguration(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void CheckCratesConfigurationFull(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void CheckCrateConfiguration(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
+  void CheckConfigurationPage(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void CheckTimeSinceHardReset(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void CheckBC0Synchronization(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void CheckCratesConfiguration(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void CheckCratesConfigurationFull(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void CheckCrateConfiguration(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void CheckCrateFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void PowerOnFixCFEB(xgi::Input * in, xgi::Output * out )throw (xgi::exception::Exception);
   void CheckFirmware(xgi::Input * in, xgi::Output * out )throw (xgi::exception::Exception);
@@ -671,23 +671,23 @@ private:
   void ReadbackALCTFirmware(xgi::Input * in, xgi::Output * out )throw (xgi::exception::Exception);
   //
   // Expert Tools
-  void ExpertToolsPage(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void StartPRBS(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void StopPRBS(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void StartNewPRBS(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void StopNewPRBS(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void DumpDCFEBLinkStatus(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void SetRadioactivityTrigger(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void SetTwoLayerTriggerForSystem(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void SetTwoLayerTriggerForCrate(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void SetRadioactivityTriggerALCTOnly(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void SetTTCDelays(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void MeasureAllTMBVoltages(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void ProgramAllOdmbEproms(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void ProgramOdmbEpromsForCrate(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void TestDcfebEpromsForCrate(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void HardResetForSystem(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
-  void OtmbFiberTest(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
+  void ExpertToolsPage(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void StartPRBS(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void StopPRBS(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void StartNewPRBS(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void StopNewPRBS(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void DumpDCFEBLinkStatus(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void SetRadioactivityTrigger(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void SetTwoLayerTriggerForSystem(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void SetTwoLayerTriggerForCrate(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void SetRadioactivityTriggerALCTOnly(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void SetTTCDelays(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void MeasureAllTMBVoltages(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void ProgramAllOdmbEproms(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void ProgramOdmbEpromsForCrate(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void TestDcfebEpromsForCrate(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void HardResetForSystem(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
+  void OtmbFiberTest(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void UpdateInFlashKey(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void OTMBConfigBits(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   //
@@ -767,5 +767,5 @@ private:
 
   } // namespace emu::pc
 } // namespace emu
-  
+
 #endif

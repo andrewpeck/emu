@@ -2463,23 +2463,23 @@ public:
   inline void Set_clct_to_alct(int clct_to_alct) { clct_to_alct_ = clct_to_alct; }
   inline int  Get_clct_to_alct() { return clct_to_alct_; }
   inline int  GetRead_clct_to_alct() { return read_clct_to_alct_; }
-  
+
   inline void Set_drop_used_clcts(int drop_used_clcts) { drop_used_clcts_ = drop_used_clcts; }
   inline int  Get_drop_used_clcts() { return drop_used_clcts_; }
   inline int  GetRead_drop_used_clcts() { return read_drop_used_clcts_; }
-  
+
   inline void Set_cross_bx_algorithm(int cross_bx_algorithm) { cross_bx_algorithm_ = cross_bx_algorithm; }
   inline int  Get_cross_bx_algorithm() { return cross_bx_algorithm_; }
   inline int  GetRead_cross_bx_algorithm() { return read_cross_bx_algorithm_; }
-  
+
   // inline void Set_(int ) { _ = ; }
   // inline int  Get_() { return _; }
   // inline int  GetRead_() { return read__; }
-  
+
   inline void Set_clct_use_corrected_bx(int clct_use_corrected_bx) { clct_use_corrected_bx_ = clct_use_corrected_bx; }
   inline int  Get_clct_use_corrected_bx() { return clct_use_corrected_bx_; }
   inline int  GetRead_clct_use_corrected_bx() { return read_clct_use_corrected_bx_; }
-  
+
 
   //
   //---------------------------------------------------------------------
@@ -2573,7 +2573,7 @@ public:
   }
   inline void SetGemBRxClockDelay(int gemB_rx_clock_delay) { gemB_rx_clock_delay_ = gemB_rx_clock_delay; }
   //
-  inline void SetGemRxClockDelay(int gem_rx_clock_delay) { 
+  inline void SetGemRxClockDelay(int gem_rx_clock_delay) {
       assert(GetHardwareVersion()==2 && GetGemEnabled());
       gem_rx_clock_delay_  = gem_rx_clock_delay;
       gemA_rx_clock_delay_ = gem_rx_clock_delay;
@@ -2586,10 +2586,10 @@ public:
       gemA_rx_fine_delay_ = gem_rx_fine_delay;
       gemB_rx_fine_delay_ = gem_rx_fine_delay;
   }
-  // 
+  //
   inline int GetGemARxClockDelay() { return gemA_rx_clock_delay_; }
   inline int GetGemBRxClockDelay() { return gemB_rx_clock_delay_; }
-  inline int GetGemRxClockDelay()  { assert(GetHardwareVersion()==2 && GetGemEnabled()); return gem_rx_clock_delay_; } 
+  inline int GetGemRxClockDelay()  { assert(GetHardwareVersion()==2 && GetGemEnabled()); return gem_rx_clock_delay_; }
   inline int GetReadGemRxClockDelay()  { return read_gem_rx_clock_delay_ ;}
   inline int GetReadGemRxPosNeg(){return read_gem_rx_posneg_;}
   //
@@ -2597,8 +2597,8 @@ public:
   inline void SetGemARxPosNeg (int gemA_rx_posneg) { gemA_rx_posneg_ = gemA_rx_posneg;}
   inline void SetGemBRxPosNeg (int gemB_rx_posneg) { gemB_rx_posneg_ = gemB_rx_posneg;}
   //
-  inline int  GetGemARxPosNeg() { return gemA_rx_posneg_;} 
-  inline int  GetGemBRxPosNeg() { return gemB_rx_posneg_;} 
+  inline int  GetGemARxPosNeg() { return gemA_rx_posneg_;}
+  inline int  GetGemBRxPosNeg() { return gemB_rx_posneg_;}
   inline int  GetGemRxPosNeg() {
     assert(GetHardwareVersion()==2 && GetGemEnabled());
     return gem_rx_posneg_;
@@ -2636,15 +2636,15 @@ public:
   inline void SetGemBRxdIntDelay (int gemB_rxd_int_delay)          { gemB_rxd_int_delay_ = gemB_rxd_int_delay;}
 
   inline int  GetGemRxdIntDelay ()                                 { return gem_rxd_int_delay_;}
-  inline void SetGemRxdIntDelay (int gem_rxd_int_delay)            { 
+  inline void SetGemRxdIntDelay (int gem_rxd_int_delay)            {
       assert(HasGroupedGemRxValues()>0);
       gem_rxd_int_delay_  = gem_rxd_int_delay;
       gemA_rxd_int_delay_ = gem_rxd_int_delay;
       gemB_rxd_int_delay_ = gem_rxd_int_delay;
   }
   inline int  GetReadGemRxdIntDelay() {
-    assert(HasGroupedGemRxValues()>0); 
-    return GetReadGemARxdIntDelay(); 
+    assert(HasGroupedGemRxValues()>0);
+    return GetReadGemARxdIntDelay();
   }
 
   inline int  GetDecoupleGemRxdIntDelay ()                               { return decouple_gem_rxd_int_delay_ ;}
@@ -2787,7 +2787,7 @@ public:
   void clear_mpc_tx_delay();   // clear the mpc_tx_delay field in register ADR_TMBTIM; used by TMB-MPC test
   //
   void new_scan(int reg, char *snd,int cnt,char *rcv,int ird, int chain); // new unified JTAG routine
-  
+
 protected:
   void new_clk_delays(unsigned short int time, int cfeb_id);
   //
@@ -4296,7 +4296,7 @@ private:
 
   int decouple_gem_rxd_int_delay_;
 
-  int gem_readout_mask_; 
+  int gem_readout_mask_;
   //
   int read_gemA_rxd_int_delay_;
   int read_gemB_rxd_int_delay_;

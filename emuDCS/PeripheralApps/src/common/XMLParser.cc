@@ -27,7 +27,7 @@ namespace emu {
 
 XMLParser::XMLParser(): pAttributes_(0), emuEndcap_(0) {}
 
-void XMLParser::parseNode(xercesc::DOMNode * pNode) 
+void XMLParser::parseNode(xercesc::DOMNode * pNode)
 {
   pAttributes_ = pNode->getAttributes();
 
@@ -36,10 +36,10 @@ void XMLParser::parseNode(xercesc::DOMNode * pNode)
 #endif
 }
 
-bool XMLParser::fillInt(std::string item, int & target) 
+bool XMLParser::fillInt(std::string item, int & target)
 {
   bool found=false;
-  int value; 
+  int value;
   XMLCh * name = xercesc::XMLString::transcode(item.c_str());
   xercesc::DOMAttr * pAttributeNode = (xercesc::DOMAttr*) pAttributes_->getNamedItem(name);
   if(pAttributeNode) {
@@ -51,13 +51,13 @@ bool XMLParser::fillInt(std::string item, int & target)
     std::cout << "  " << item << " = " << target << std::endl;
 #endif
   }
-  return found;  
+  return found;
 }
 
-bool XMLParser::fillIntX(std::string item, int & target) 
+bool XMLParser::fillIntX(std::string item, int & target)
 {
   bool found=false;
-  int value; 
+  int value;
   XMLCh * name = xercesc::XMLString::transcode(item.c_str());
   xercesc::DOMAttr * pAttributeNode = (xercesc::DOMAttr*) pAttributes_->getNamedItem(name);
   if(pAttributeNode) {
@@ -69,13 +69,13 @@ bool XMLParser::fillIntX(std::string item, int & target)
     std::cout << "  " << item << " = " << target << std::endl;
 #endif
   }
-  return found;  
+  return found;
 }
 
-bool XMLParser::fillLongIntX(std::string item, long int & target) 
+bool XMLParser::fillLongIntX(std::string item, long int & target)
 {
   bool found=false;
-  long int value; 
+  long int value;
   XMLCh * name = xercesc::XMLString::transcode(item.c_str());
   xercesc::DOMAttr * pAttributeNode = (xercesc::DOMAttr*) pAttributes_->getNamedItem(name);
   if(pAttributeNode) {
@@ -87,13 +87,13 @@ bool XMLParser::fillLongIntX(std::string item, long int & target)
     std::cout << "fillLongIntX: " << item << " = 0x" << std::hex << target << std::endl;
 #endif
   }
-  return found;  
+  return found;
 }
 
-bool XMLParser::fillLongLongIntX(std::string item, long long int & target) 
+bool XMLParser::fillLongLongIntX(std::string item, long long int & target)
 {
   bool found=false;
-  long long int value; 
+  long long int value;
   XMLCh * name = xercesc::XMLString::transcode(item.c_str());
   xercesc::DOMAttr * pAttributeNode = (xercesc::DOMAttr*) pAttributes_->getNamedItem(name);
   if(pAttributeNode) {
@@ -105,11 +105,11 @@ bool XMLParser::fillLongLongIntX(std::string item, long long int & target)
     std::cout << "fillLongLongIntX: " << item << " = 0x" << std::hex << target << std::endl;
 #endif
   }
-  return found;  
+  return found;
 }
 
 
-bool XMLParser::fillString(std::string item, std::string & target) 
+bool XMLParser::fillString(std::string item, std::string & target)
 {
   bool found=false;
   std::string value;
@@ -127,7 +127,7 @@ bool XMLParser::fillString(std::string item, std::string & target)
 }
 
 
-bool XMLParser::fillFloat(std::string item, float & target) 
+bool XMLParser::fillFloat(std::string item, float & target)
 {
   float value;
   bool found=false;
@@ -218,9 +218,9 @@ void XMLParser::CCBParser(xercesc::DOMNode *pNode, Crate * theCrate)
   CCB * ccb_ = new CCB(theCrate, slot);
 
   if(fillInt("hardware_version", value)){
-    ccb_->SetHardwareVersion(value);   
+    ccb_->SetHardwareVersion(value);
   }
-              
+
   if ( fillInt("TTCmode", mode) ) {
     ccb_->SetTTCmode(mode);
   }
@@ -264,9 +264,9 @@ void XMLParser::MPCParser(xercesc::DOMNode * pNode, Crate * theCrate)
 
   if(!fillInt("slot", slot)) slot = 12;
   MPC * mpc_ = new MPC(theCrate, slot);
-  
+
   if(fillInt("hardware_version", value)) {
-    mpc_->SetHardwareVersion(value);   
+    mpc_->SetHardwareVersion(value);
   }
 
   if(fillInt("serializermode",value)){
@@ -299,7 +299,7 @@ void XMLParser::MPCParser(xercesc::DOMNode * pNode, Crate * theCrate)
 //    mpc_->SetBoardID(value);
 //  }
     mpc_->SetBoardID(theCrate->CrateID());
- 
+
 }
 
 void XMLParser::DDUParser(xercesc::DOMNode * pNode, Crate * theCrate)
@@ -309,8 +309,8 @@ void XMLParser::DDUParser(xercesc::DOMNode * pNode, Crate * theCrate)
   parseNode(pNode);
 
   fillInt("slot", slot);
-//  DDU * ddu_ = new DDU(theCrate, slot);  
-  new DDU(theCrate, slot);  
+//  DDU * ddu_ = new DDU(theCrate, slot);
+  new DDU(theCrate, slot);
 }
 
 void XMLParser::TMBParser(xercesc::DOMNode * pNode, Crate * theCrate, Chamber * theChamber, xercesc::DOMNode * pNodeGlobal)
@@ -319,7 +319,7 @@ void XMLParser::TMBParser(xercesc::DOMNode * pNode, Crate * theCrate, Chamber * 
   int Global_alct_pretrig_thresh;
   bool got_alct_pretrig_thresh=false;
 
-  if (pNodeGlobal) 
+  if (pNodeGlobal)
   {
      parseNode(pNodeGlobal);
 
@@ -343,10 +343,10 @@ void XMLParser::TMBParser(xercesc::DOMNode * pNode, Crate * theCrate, Chamber * 
     if (fillInt("gem_enabled",value)) {gemEnabled = value; }
     TMB * tmb_ = new TMB(theCrate, theChamber, slot, tmbHwVersion, gemEnabled);
     //
-    // need still to put in 
+    // need still to put in
     //   . ddd_oe mask
 
-              
+
     //////////////////////////////
     // Expected Firmware tags:
     //////////////////////////////
@@ -364,7 +364,7 @@ void XMLParser::TMBParser(xercesc::DOMNode * pNode, Crate * theCrate, Chamber * 
     //0x0E:
     if (fillInt("enable_alct_tx",value)) { tmb_->SetEnableAlctTx(value); }
     if (fillInt("enable_alct_rx",value)) { tmb_->SetAlctInput(value);    }
-    //    
+    //
     //0X16
     if (fillInt("alct_tof_delay",value)) { tmb_->SetAlctTOFDelay(value); }
     if (fillInt("dmb_tx_delay"  ,value)) { tmb_->SetDmbTxDelay(value);   }
@@ -426,22 +426,22 @@ void XMLParser::TMBParser(xercesc::DOMNode * pNode, Crate * theCrate, Chamber * 
     //0X62,64,66 = ADR_HCM401,HCM423,HCM445 = CFEB4 Hot Channel Masks
     ///////////////////////////////////
     long long int hot_channel_mask;
-    if (fillLongLongIntX("layer0_distrip_hot_chann_mask", hot_channel_mask) ) 
+    if (fillLongLongIntX("layer0_distrip_hot_chann_mask", hot_channel_mask) )
       tmb_->SetDistripHotChannelMask(0,hot_channel_mask);
     //
-    if (fillLongLongIntX("layer1_distrip_hot_chann_mask", hot_channel_mask) ) 
+    if (fillLongLongIntX("layer1_distrip_hot_chann_mask", hot_channel_mask) )
       tmb_->SetDistripHotChannelMask(1,hot_channel_mask);
     //
-    if (fillLongLongIntX("layer2_distrip_hot_chann_mask", hot_channel_mask) ) 
+    if (fillLongLongIntX("layer2_distrip_hot_chann_mask", hot_channel_mask) )
       tmb_->SetDistripHotChannelMask(2,hot_channel_mask);
     //
-    if (fillLongLongIntX("layer3_distrip_hot_chann_mask", hot_channel_mask) ) 
+    if (fillLongLongIntX("layer3_distrip_hot_chann_mask", hot_channel_mask) )
       tmb_->SetDistripHotChannelMask(3,hot_channel_mask);
     //
-    if (fillLongLongIntX("layer4_distrip_hot_chann_mask", hot_channel_mask) ) 
+    if (fillLongLongIntX("layer4_distrip_hot_chann_mask", hot_channel_mask) )
       tmb_->SetDistripHotChannelMask(4,hot_channel_mask);
     //
-    if (fillLongLongIntX("layer5_distrip_hot_chann_mask", hot_channel_mask) ) 
+    if (fillLongLongIntX("layer5_distrip_hot_chann_mask", hot_channel_mask) )
       tmb_->SetDistripHotChannelMask(5,hot_channel_mask);
     //
     //0X68:
@@ -537,7 +537,7 @@ void XMLParser::TMBParser(xercesc::DOMNode * pNode, Crate * theCrate, Chamber * 
     //0XB6:
     if (fillInt("rpc_exists"     ,value)) { tmb_->SetRpcExist(value);           }
     if (fillInt("rpc_read_enable",value)) { tmb_->SetRpcReadEnable(value);      }
-    if (fillInt("rpc_bxn_offset" ,value)) { tmb_->SetRpcBxnOffset(value);       }    
+    if (fillInt("rpc_bxn_offset" ,value)) { tmb_->SetRpcBxnOffset(value);       }
     //if (fillInt("rpc_bank_addr"  ,value)) { tmb_->SetRpcSyncBankAddress(value); }
     //
     //0XBA:
@@ -585,7 +585,7 @@ void XMLParser::TMBParser(xercesc::DOMNode * pNode, Crate * theCrate, Chamber * 
     //0XF4
     if (fillInt("clct_blanking"          ,value)) { tmb_->SetClctBlanking(value);        }
     if (fillInt("clct_pid_thresh_pretrig",value)) { tmb_->SetClctPatternIdThresh(value); }
-    if (fillInt("clct_pid_thresh_postdrift",value)) { tmb_->SetClctPatternIdThreshPostDrift(value); }    
+    if (fillInt("clct_pid_thresh_postdrift",value)) { tmb_->SetClctPatternIdThreshPostDrift(value); }
     if (fillInt("adjacent_cfeb_distance" ,value)) { tmb_->SetAdjacentCfebDistance(value); }
     //
     //0XF6
@@ -635,7 +635,7 @@ void XMLParser::TMBParser(xercesc::DOMNode * pNode, Crate * theCrate, Chamber * 
 	//
 	//0X16C
 	if (fillInt("cfeb6delay"     ,value)) { tmb_->SetCfeb6RxClockDelay(value); }
-	if (fillInt("cfeb6posneg",value))     { tmb_->SetCfeb6RxPosNeg(value);     }	
+	if (fillInt("cfeb6posneg",value))     { tmb_->SetCfeb6RxPosNeg(value);     }
       }
     }
     //
@@ -674,7 +674,7 @@ void XMLParser::TMBParser(xercesc::DOMNode * pNode, Crate * theCrate, Chamber * 
     if (fillInt("cfeb_badbits_block",value)) { tmb_->SetCFEBBadBitsBlock(value); }
     //
 
-    if (gemEnabled) { 
+    if (gemEnabled) {
         //
         if (tmb_->HasGroupedGemRxValues() == 1){
             if (fillInt("gem_delay",      value)) { tmb_->SetGemRxClockDelay(value); }
@@ -690,25 +690,25 @@ void XMLParser::TMBParser(xercesc::DOMNode * pNode, Crate * theCrate, Chamber * 
         if (fillInt ("gem_zero_supress_enable" , value)) { tmb_->SetGemZeroSupressEnable (value);}
 
         //0x312
-        if (fillInt ("gemA_fifo_rxd_int_delay"    , value)) { tmb_->SetGemARxdIntDelay        (value);} 
-        if (fillInt ("gemB_fifo_rxd_int_delay"    , value)) { tmb_->SetGemBRxdIntDelay        (value);} 
-        if (fillInt ("decouple_gem_rxd_int_delay" , value)) { tmb_->SetDecoupleGemRxdIntDelay (value);} 
-        if (fillInt ("gem_fifo_rxd_int_delay"     , value)) { tmb_->SetGemRxdIntDelay         (value);} 
+        if (fillInt ("gemA_fifo_rxd_int_delay"    , value)) { tmb_->SetGemARxdIntDelay        (value);}
+        if (fillInt ("gemB_fifo_rxd_int_delay"    , value)) { tmb_->SetGemBRxdIntDelay        (value);}
+        if (fillInt ("decouple_gem_rxd_int_delay" , value)) { tmb_->SetDecoupleGemRxdIntDelay (value);}
+        if (fillInt ("gem_fifo_rxd_int_delay"     , value)) { tmb_->SetGemRxdIntDelay         (value);}
 
     }
     //
     xercesc::DOMNode * daughterNode = pNode->getFirstChild();
     while(daughterNode) {
-      if (daughterNode->getNodeType() == xercesc::DOMNode::ELEMENT_NODE and 
+      if (daughterNode->getNodeType() == xercesc::DOMNode::ELEMENT_NODE and
 	  strcmp("ALCT",xercesc::XMLString::transcode(daughterNode->getNodeName()))==0){
 	//
 	std::string  nodeName = xercesc::XMLString::transcode(daughterNode->getNodeName());
-#ifdef debugV  
+#ifdef debugV
 	std::cout << nodeName << std::endl;
 #endif
 	//
 	parseNode(daughterNode);
-	
+
         std::string chamberType;
         fillString("chamber_type", chamberType);
         //alct_ memory area is deleted in ~TMB()
@@ -721,14 +721,14 @@ void XMLParser::TMBParser(xercesc::DOMNode * pNode, Crate * theCrate, Chamber * 
        	//if(fillInt("rpc0_rat_delay",value)) { rat_->SetRpcRatDelay(0,value); }
 	//
 	//ALCT
-	// need to put in 
+	// need to put in
 	//   . hot channel mask
 	//   . collision mask
 	//
 	////////////////////////////////////////////////////////
 	// Expected firmware tags
 	////////////////////////////////////////////////////////
-        if (fillInt("hardware_version",   value)) { alct_->SetHardwareVersion(value);          }                      
+        if (fillInt("hardware_version",   value)) { alct_->SetHardwareVersion(value);          }
 	if (fillInt("alct_firmware_day"  ,value)) { alct_->SetExpectedFastControlDay(value);   }
 	if (fillInt("alct_firmware_month",value)) { alct_->SetExpectedFastControlMonth(value); }
 	if (fillInt("alct_firmware_year" ,value)) { alct_->SetExpectedFastControlYear(value);  }
@@ -783,8 +783,8 @@ void XMLParser::TMBParser(xercesc::DOMNode * pNode, Crate * theCrate, Chamber * 
 	//	if (fillString("alct_hotchannel_file", file)){
 	//	  alct_->SetHotChannelFile(file);
 	//	}
-	
-        std::string hot_ch_mask;     
+
+        std::string hot_ch_mask;
         if (fillString("alct_layer0_hot_chann_mask",hot_ch_mask)) { alct_->SetALCTHotChanMaskString(0, hot_ch_mask); }
         if (fillString("alct_layer1_hot_chann_mask",hot_ch_mask)) { alct_->SetALCTHotChanMaskString(1, hot_ch_mask); }
         if (fillString("alct_layer2_hot_chann_mask",hot_ch_mask)) { alct_->SetALCTHotChanMaskString(2, hot_ch_mask); }
@@ -793,7 +793,7 @@ void XMLParser::TMBParser(xercesc::DOMNode * pNode, Crate * theCrate, Chamber * 
         if (fillString("alct_layer5_hot_chann_mask",hot_ch_mask)) { alct_->SetALCTHotChanMaskString(5, hot_ch_mask); }
 
         int number, delay, threshold;
-	
+
 	xercesc::DOMNode * grandDaughterNode = daughterNode->getFirstChild();
 
 	while (grandDaughterNode) {
@@ -819,7 +819,7 @@ void XMLParser::TMBParser(xercesc::DOMNode * pNode, Crate * theCrate, Chamber * 
       daughterNode = daughterNode->getNextSibling();
     }
   }
-#ifdef debugV  
+#ifdef debugV
   std::cout << "finished TMBParsing" << std::endl;
 #endif
 }
@@ -835,9 +835,9 @@ void XMLParser::DAQMBParser(xercesc::DOMNode * pNode, Crate * theCrate, Chamber 
     if(slot == 0) {
       std::cerr << "No slot specified for DMB! " << std::endl;
       return;
-    } 
+    }
     //
-    DAQMB * daqmb_ = new DAQMB(theCrate,theChamber,slot);  
+    DAQMB * daqmb_ = new DAQMB(theCrate,theChamber,slot);
     //
     int ivalue, delay;
 //     if ( fillInt("feb_dav_delay", delay)){
@@ -931,19 +931,19 @@ void XMLParser::DAQMBParser(xercesc::DOMNode * pNode, Crate * theCrate, Chamber 
     }
     //
     long int long_value;
-    if (fillLongIntX("dmb_cntl_firmware_tag", long_value) ) 
+    if (fillLongIntX("dmb_cntl_firmware_tag", long_value) )
       daqmb_->SetExpectedControlFirmwareTag(long_value);
     //
-    if (fillInt("dmb_vme_firmware_tag", delay) ) 
+    if (fillInt("dmb_vme_firmware_tag", delay) )
       daqmb_->SetExpectedVMEFirmwareTag(delay);
     //
-    if (fillInt("odmb_kill_mask", delay) ) 
+    if (fillInt("odmb_kill_mask", delay) )
       daqmb_->SetKillInputMask(delay);
     //
 
-    int number=0;   
+    int number=0;
     int kill_chip[6]={0x0000,0x0000,0x0000,0x0000,0x0000,0x0000};
-    
+
     xercesc::DOMNode * daughterNode = pNode->getFirstChild();
 
     while (daughterNode) {
@@ -974,7 +974,7 @@ void XMLParser::DAQMBParser(xercesc::DOMNode * pNode, Crate * theCrate, Chamber 
 //	      }
 //fg
               if(fillInt("hardware_version", ivalue)){
-                 cfeb.SetHardwareVersion(ivalue);   
+                 cfeb.SetHardwareVersion(ivalue);
               }
 
               if(fillInt("comp_clk_phase", ivalue)){
@@ -990,14 +990,14 @@ void XMLParser::DAQMBParser(xercesc::DOMNode * pNode, Crate * theCrate, Chamber 
               }
 
               if(fillInt("pipeline_depth", ivalue)){
-                 cfeb.SetPipelineDepth(ivalue);   
+                 cfeb.SetPipelineDepth(ivalue);
               }
 
               if(fillInt("fine_delay", ivalue)){
-                 cfeb.SetFineDelay(ivalue);   
-              } 
-              
-	      if (fillLongIntX("cfeb_firmware_tag", long_value) ) 
+                 cfeb.SetFineDelay(ivalue);
+              }
+
+	      if (fillLongIntX("cfeb_firmware_tag", long_value) )
 		daqmb_->SetExpectedCFEBFirmwareTag(number,long_value);
 	      //
 	      fillIntX("kill_chip0",kill_chip[0]);
@@ -1021,7 +1021,7 @@ void XMLParser::DAQMBParser(xercesc::DOMNode * pNode, Crate * theCrate, Chamber 
 		    daqmb_->SetShiftArray(number,5-chip,chan,KILL_CHAN);
 		  }
 		}
-	      } 	      
+	      }
 	      //
 	      daqmb_->cfebs_.push_back(cfeb);
               NCFEB++;
@@ -1048,9 +1048,9 @@ void XMLParser::CSCParser(xercesc::DOMNode * pNode, Crate * theCrate, xercesc::D
   if(fillString("label", label)) csc_->SetLabel(label);
   fillString("chamber_type", chamberType);
   if(fillString("known_problem", problem)) csc_->SetProblemDescription(problem);
-  if(fillIntX("problem_location_mask", problem_mask)) csc_->SetProblemMask(problem_mask); 
+  if(fillIntX("problem_location_mask", problem_mask)) csc_->SetProblemMask(problem_mask);
   //
-  std::cout << "Creating CSC Type=" << chamberType 
+  std::cout << "Creating CSC Type=" << chamberType
 	    << " Label= " << label << std::endl;
   //
   xercesc::DOMNode * pNode1 = pNode->getFirstChild();
@@ -1059,13 +1059,13 @@ void XMLParser::CSCParser(xercesc::DOMNode * pNode, Crate * theCrate, xercesc::D
     if (pNode1->getNodeType() == xercesc::DOMNode::ELEMENT_NODE) {
       // std::cout << "PeripheralCrateParser: pNode1=" << xercesc::XMLString::transcode(pNode1->getNodeName()) << std::endl;
       //
-      if (strcmp("DAQMB",xercesc::XMLString::transcode(pNode1->getNodeName()))==0) {  
+      if (strcmp("DAQMB",xercesc::XMLString::transcode(pNode1->getNodeName()))==0) {
 	DAQMBParser(pNode1, theCrate, csc_);
       }
       //
-      if (strcmp("TMB",xercesc::XMLString::transcode(pNode1->getNodeName()))==0) {  
+      if (strcmp("TMB",xercesc::XMLString::transcode(pNode1->getNodeName()))==0) {
 	TMBParser(pNode1, theCrate, csc_, pNodeGlobal);
-      }       
+      }
     }
     pNode1 = pNode1->getNextSibling();
   }
@@ -1080,11 +1080,11 @@ void XMLParser::CSCParser(xercesc::DOMNode * pNode, Crate * theCrate, xercesc::D
   /******************************************************************************/
 // Crate * XMLParser::VMEParser(xercesc::DOMNode * pNode)
 // {
-//   int crateid=0, port; 
+//   int crateid=0, port;
 //   std::string  label, VMEaddress;
 
 //   parseNode(pNode);
-  
+
 //   fillInt("crateID",crateid);
 //   if(!fillString("VMEaddress",VMEaddress) )
 //   {
@@ -1092,19 +1092,19 @@ void XMLParser::CSCParser(xercesc::DOMNode * pNode, Crate * theCrate, xercesc::D
 //      return (Crate *) 0x0;
 //   }
 
-//   VMEController * controller = new VMEController(); 
+//   VMEController * controller = new VMEController();
 
 //   controller->SetVMEAddress(VMEaddress);
 //   if(fillInt("port",port)) controller->SetPort(port);
-  
+
 //   Crate * crate = new Crate(crateid,controller);
 
 //   // if crate "label" missing, use "crateID" instead
-//   if(!fillString("label",label)) fillString("crateID",label);  
+//   if(!fillString("label",label)) fillString("crateID",label);
 
 //   crate->SetLabel(label);
 //   std::cout << "Crate ID=" << crateid << " Label=" << label << std::endl;
-  
+
 //   // add VMECC(VMEModule in slot 1) to crate
 //   VMECC * vcc = new VMECC(crate, 1);
 //   std::cout << "VMECC in slot " << vcc->slot() << std::endl;
@@ -1112,15 +1112,15 @@ void XMLParser::CSCParser(xercesc::DOMNode * pNode, Crate * theCrate, xercesc::D
 // }
 
 void XMLParser::PeripheralCrateParser(xercesc::DOMNode *pNode,EmuEndcap * endcap,xercesc::DOMNode *pNodeGlobal)
-{ 
-  int crateid=0, dep_port; 
+{
+  int crateid=0, dep_port;
   std::string  label, dep_VMEaddress;
   bool  found_dep_VMEaddress = false;
   bool  found_dep_port = false;
   bool  found_MAC_and_port = false;
 
   parseNode(pNode);
-  
+
   if(!fillInt("crateID",crateid))
   {
      std::cerr << "No valid crateID" << std::endl;
@@ -1131,28 +1131,28 @@ void XMLParser::PeripheralCrateParser(xercesc::DOMNode *pNode,EmuEndcap * endcap
   if(fillString("VMEaddress",dep_VMEaddress) ) found_dep_VMEaddress = true;
   if(fillInt("port",dep_port))  found_dep_port = true;
 
-  VMEController * controller = new VMEController(); 
+  VMEController * controller = new VMEController();
   Crate * crate = new Crate(crateid,controller);
 
   // if crate "label" missing, use "crateID" instead
-  if(!fillString("label",label)) fillString("crateID",label);  
+  if(!fillString("label",label)) fillString("crateID",label);
 
   crate->SetLabel(label);
   std::cout << "Crate ID=" << crateid << " Label=" << label << std::endl;
-  
+
 //  Crate * crate = VMEParser(pNode);
-  
-//   if(crate==NULL) 
+
+//   if(crate==NULL)
 //   {
 //      std::cerr<< "Failed to instantiate the crate, crate info discarded!" << std::endl;
 //      return;
 //   }
 
   endcap->addCrate(crate);
-  
-  xercesc::DOMNode * pNode3 = pNode->getFirstChild(); 
+
+  xercesc::DOMNode * pNode3 = pNode->getFirstChild();
   if (pNode3==0) std::cout << " Bad element "<< std::endl;
-  
+
   while(pNode3) {
     // the node was really a board of the peripheral crate like DMB, TMB, etc.
     if (pNode3->getNodeType() == xercesc::DOMNode::ELEMENT_NODE) {
@@ -1161,29 +1161,29 @@ void XMLParser::PeripheralCrateParser(xercesc::DOMNode *pNode,EmuEndcap * endcap
        std::cout <<"  "<< xercesc::XMLString::transcode(pNode3->getNodeName()) << std::endl;
 #endif
     }
-    
-    if (strcmp("VCC",xercesc::XMLString::transcode(pNode3->getNodeName()))==0) {  
+
+    if (strcmp("VCC",xercesc::XMLString::transcode(pNode3->getNodeName()))==0) {
        found_MAC_and_port = VCCParser(pNode3, crate);
     }
 
-    if (strcmp("CSC",xercesc::XMLString::transcode(pNode3->getNodeName()))==0) {  
+    if (strcmp("CSC",xercesc::XMLString::transcode(pNode3->getNodeName()))==0) {
        CSCParser(pNode3, crate,pNodeGlobal);
     }
-    
-    if (strcmp("CCB",xercesc::XMLString::transcode(pNode3->getNodeName()))==0) {  
+
+    if (strcmp("CCB",xercesc::XMLString::transcode(pNode3->getNodeName()))==0) {
        CCBParser(pNode3, crate);
     }
-    
-    if (strcmp("MPC",xercesc::XMLString::transcode(pNode3->getNodeName()))==0) {  
+
+    if (strcmp("MPC",xercesc::XMLString::transcode(pNode3->getNodeName()))==0) {
        MPCParser(pNode3, crate);
     }
 
-    if (strcmp("DDU",xercesc::XMLString::transcode(pNode3->getNodeName()))==0) {  
+    if (strcmp("DDU",xercesc::XMLString::transcode(pNode3->getNodeName()))==0) {
        DDUParser(pNode3, crate);
     }
-    
+
     pNode3 = pNode3->getNextSibling();
-    
+
   } // end of looping over boards (pNode3)
   if(!found_MAC_and_port){
     /* The new VCC parameters for MAC address and ethernet port were not found */
@@ -1204,7 +1204,7 @@ void XMLParser::PeripheralCrateParser(xercesc::DOMNode *pNode,EmuEndcap * endcap
     crate->vmeController()->SetMAC(0,dep_VMEaddress);
     crate->vmeController()->SetPort(dep_port);
   }
-  std::cout <<"PeripheralCrateParser: finished looping over boards for crateID "<< crate->CrateID() << std::endl; 
+  std::cout <<"PeripheralCrateParser: finished looping over boards for crateID "<< crate->CrateID() << std::endl;
 }
 
 
@@ -1239,7 +1239,7 @@ EmuEndcap * XMLParser::EmuEndcapParser(xercesc::DOMNode *pNode)
 }
 
 void XMLParser::parseFile(const std::string name)
-{ 
+{
   //
   /// Initialize XML4C system
   try{
@@ -1251,7 +1251,7 @@ void XMLParser::parseFile(const std::string name)
 	      << xercesc::XMLString::transcode(toCatch.getMessage()) << std::endl;
     return ;
   }
- 
+
   //  Create our parser, then attach an error handler to the parser.
   //  The parser will call back to methods of the ErrorHandler if it
   //  discovers errors during the course of parsing the XML document.
@@ -1261,8 +1261,8 @@ void XMLParser::parseFile(const std::string name)
   parser->setDoNamespaces(false);
   parser->setCreateEntityReferenceNodes(false);
   //parser->setToCreateXMLDeclTypeNode(true);
-  
- 
+
+
   //  Parse the XML file, catching any XML exceptions that might propogate
   //  out of it.
   //
@@ -1270,14 +1270,14 @@ void XMLParser::parseFile(const std::string name)
   try{
     parser->parse(name.c_str());
   }
-  
+
   catch (const xercesc::XMLException& e){
     std::cerr << "An error occured during parsing\n   Message: "
 	 << xercesc::XMLString::transcode(e.getMessage()) << std::endl;
     errorsOccured = true;
   }
 
- 
+
   catch (const xercesc::DOMException& e){
     std::cerr << "An error occured during parsing\n   Message: "
 	      << xercesc::XMLString::transcode(e.msg) << std::endl;
@@ -1299,7 +1299,7 @@ void XMLParser::parseFile(const std::string name)
          || strcmp("EmuEndcap",xercesc::XMLString::transcode(pNode1->getNodeName()))==0)
         {
 	  emuEndcap_ = EmuEndcapParser(pNode1);
-	} else 
+	} else
         {
 	  std::cerr << "XMLParser.ERROR: First tag must be EmuEndcap or EmuSystem" << std::endl;
 	}
@@ -1308,7 +1308,7 @@ void XMLParser::parseFile(const std::string name)
     } // end of Top Element Loop, <EMU> only (pNode1)
     //
   } //end of parsing config file
-  
+
   //
   //  Clean up the error handler. The parser does not adopt handlers
   //  since they could be many objects or one object installed for multiple
@@ -1317,7 +1317,7 @@ void XMLParser::parseFile(const std::string name)
 
   //  Delete the parser itself.  Must be done prior to calling Terminate, below.
   delete parser;
-  
+
   // And call the termination method
   xercesc::XMLPlatformUtils::Terminate();
   //
@@ -1327,7 +1327,7 @@ void XMLParser::parseFile(const std::string name)
 }
 
 void XMLParser::parseString(const std::string& xml)
-{ 
+{
   //
   /// Initialize XML4C system
   try{
@@ -1339,7 +1339,7 @@ void XMLParser::parseString(const std::string& xml)
 	      << xercesc::XMLString::transcode(toCatch.getMessage()) << std::endl;
     return ;
   }
- 
+
   //  Create our parser, then attach an error handler to the parser.
   //  The parser will call back to methods of the ErrorHandler if it
   //  discovers errors during the course of parsing the XML document.
@@ -1349,8 +1349,8 @@ void XMLParser::parseString(const std::string& xml)
   parser->setDoNamespaces(false);
   parser->setCreateEntityReferenceNodes(false);
   //parser->setToCreateXMLDeclTypeNode(true);
-  
- 
+
+
   //  Parse the XML file, catching any XML exceptions that might propogate
   //  out of it.
   //
@@ -1384,7 +1384,7 @@ void XMLParser::parseString(const std::string& xml)
          || strcmp("EmuEndcap",xercesc::XMLString::transcode(pNode1->getNodeName()))==0)
         {
 	  emuEndcap_ = EmuEndcapParser(pNode1);
-	} else 
+	} else
         {
 	  std::cerr << "XMLParser.ERROR: First tag must be EmuEndcap or EmuSystem" << std::endl;
 	}
@@ -1393,7 +1393,7 @@ void XMLParser::parseString(const std::string& xml)
     } // end of Top Element Loop, <EMU> only (pNode1)
     //
   } //end of parsing config file
-  
+
   delete parser;
 }
   } // namespace emu::pc
