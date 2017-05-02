@@ -435,10 +435,16 @@ private:
   void DMBTurnOn(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
   void CFEBUtils(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
   void CFEBFunction(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
+  void DCFEBPromTest(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
+  void DCFEBPromTestFast(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
+  void AllDCFEBsPromTestFast(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
+  void DCFEBParaPrint(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
+  void DCFEBParaErase(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
   void DCFEBReadFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
   void DCFEBProgramFpga(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
   void DCFEBProgramFpgaAll(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
   void DCFEBProgramEprom(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
+  void DCFEBProgramEpromOffset(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
   void DCFEBProgramEpromSVF(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
   void DCFEBProgramEpromXilinx(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
   void DCFEBProgramEpromAll(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
@@ -550,6 +556,7 @@ private:
   void ReadMPCRegister(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
   void WriteMPCRegister(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
   void MPCLoadFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
+  void MPCLoadFirmwareMCS(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
   void MPCMask(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
   void MPCConfig(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
   void MPCReadFirmware(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);
@@ -678,6 +685,7 @@ private:
   void MeasureAllTMBVoltages(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
   void ProgramAllOdmbEproms(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
   void ProgramOdmbEpromsForCrate(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
+  void TestDcfebEpromsForCrate(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
   void HardResetForSystem(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
   void OtmbFiberTest(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception); 
   void UpdateInFlashKey(xgi::Input * in, xgi::Output * out ) throw (xgi::exception::Exception);

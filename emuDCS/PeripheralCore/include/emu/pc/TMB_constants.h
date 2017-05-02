@@ -368,6 +368,9 @@ static const unsigned long int alct_load_cfg_time_adr      = 0x00018E;
 static const unsigned long int gtx_phaser_lock_time_adr    = 0x000190;
 static const unsigned long int gtx_sync_done_time_adr      = 0x000192;
 
+// config new trigger algorithm
+static const unsigned long int algo2016_ctrl_adr = 0x000198;
+
 //GTX link control and monitoring for the GEM
 static const unsigned long int  gem_gtx_rx0_adr          = 0x000300;  //ADR_GEM_GTX_RX0
 static const unsigned long int  gem_gtx_rx1_adr          = 0x000302;  //ADR_GEM_GTX_RX1
@@ -387,7 +390,7 @@ static const unsigned long int gem_cnt_rdata_adr         = 0x000316; // GEM Coun
 
 //
 static const int LARGEST_VME_ADDRESS = badbits445_adr;
-static const int OTMB_LARGEST_VME_ADDRESS = gtx_sync_done_time_adr;
+static const int OTMB_LARGEST_VME_ADDRESS = algo2016_ctrl_adr;
 //
 //
 // TMB counter indices:
@@ -1747,6 +1750,11 @@ const int mpc_tx_delay_vmereg            =  tmbtim_adr;
 const int mpc_tx_delay_bitlo             =  8;
 const int mpc_tx_delay_bithi             = 11;
 const int mpc_tx_delay_default           =  0;
+//
+const int clct_match_window_size_vmereg  =  tmbtim_adr;
+const int clct_match_window_size_bitlo   = 12;
+const int clct_match_window_size_bithi   = 15;
+const int clct_match_window_size_default =  3;
 //
 //
 //------------------------------------------------------------------
@@ -3182,36 +3190,86 @@ const int mpc_frames_fifo_ctrl_sditter_vmereg            = mpc_frames_fifo_ctrl_
 const int mpc_frames_fifo_ctrl_sditter_bitlo             = 8;
 const int mpc_frames_fifo_ctrl_sditter_bithi             = 8;
 const int mpc_frames_fifo_ctrl_sditter_default           = 0;
-
+//
+//
+//------------------------------------------------------------------
+//0X198 = ADR_NEWALGO_CTRL:  Controls parameters of new trigger algorithm  (Yuriy, 2016)
+//------------------------------------------------------------------
+const int use_dead_time_zone_vmereg  = algo2016_ctrl_adr;
+const int use_dead_time_zone_bitlo   = 0;
+const int use_dead_time_zone_bithi   = 0;
+const int use_dead_time_zone_default = 1;
+//
+//
+const int dead_time_zone_size_vmereg  = algo2016_ctrl_adr;
+const int dead_time_zone_size_bitlo   = 1;
+const int dead_time_zone_size_bithi   = 5;
+const int dead_time_zone_size_default = 15;
+//
+//
+const int use_dynamic_dead_time_zone_vmereg  = algo2016_ctrl_adr;
+const int use_dynamic_dead_time_zone_bitlo   = 6;
+const int use_dynamic_dead_time_zone_bithi   = 6;
+const int use_dynamic_dead_time_zone_default = 1;
+//
+//
+const int clct_to_alct_vmereg  = algo2016_ctrl_adr;
+const int clct_to_alct_bitlo   = 7;
+const int clct_to_alct_bithi   = 7;
+const int clct_to_alct_default = 1;
+//
+//
+const int drop_used_clcts_vmereg  = algo2016_ctrl_adr;
+const int drop_used_clcts_bitlo   = 8;
+const int drop_used_clcts_bithi   = 8;
+const int drop_used_clcts_default = 0;
+//
+//
+const int cross_bx_algorithm_vmereg  = algo2016_ctrl_adr;
+const int cross_bx_algorithm_bitlo   = 9;
+const int cross_bx_algorithm_bithi   = 9;
+const int cross_bx_algorithm_default = 1; // for now this improvement is switched off by default because it is not fully functional in firmware
+//
+//
+const int clct_use_corrected_bx_vmereg  = algo2016_ctrl_adr;
+const int clct_use_corrected_bx_bitlo   = 10;
+const int clct_use_corrected_bx_bithi   = 10;
+const int clct_use_corrected_bx_default = 1; // for now this improvement is switched off by default because it is not fully functional in firmware
+//
+//
 //-----------------------------------------------------------------------------
 // 0X310 ADR_GEM_TBINS
 //-----------------------------------------------------------------------------
-
 const int gem_fifo_tbins_vmereg           = gem_tbins_adr;
 const int gem_fifo_tbins_bitlo            = 0;
 const int gem_fifo_tbins_bithi            = 4;
 const int gem_fifo_tbins_default          = 7;
-
+//
+//
 const int gem_fifo_pretrig_vmereg         = gem_tbins_adr;
 const int gem_fifo_pretrig_bitlo          = 5;
 const int gem_fifo_pretrig_bithi          = 9;
 const int gem_fifo_pretrig_default        = 2;
-
+//
+//
 const int gem_fifo_decouple_vmereg        = gem_tbins_adr;
 const int gem_fifo_decouple_bitlo         = 10;
 const int gem_fifo_decouple_bithi         = 10;
 const int gem_fifo_decouple_default       = 0;
-
+//
+//
 const int gem_read_enable_vmereg          = gem_tbins_adr;
 const int gem_read_enable_bitlo           = 11;
 const int gem_read_enable_bithi           = 11;
 const int gem_read_enable_default         = 0;
-
+//
+//
 const int gem_zero_supress_enable_vmereg  = gem_tbins_adr;
 const int gem_zero_supress_enable_bitlo   = 12;
 const int gem_zero_supress_enable_bithi   = 12;
 const int gem_zero_supress_enable_default = 0;
-
+//
+//
 //-----------------------------------------------------------------------------
 // 0X312 ADR_GEM_CFG
 //-----------------------------------------------------------------------------
@@ -3220,22 +3278,25 @@ const int gemA_rxd_int_delay_vmereg          = gem_cfg_adr;
 const int gemA_rxd_int_delay_bitlo           = 0;
 const int gemA_rxd_int_delay_bithi           = 3;
 const int gemA_rxd_int_delay_default         = 0;
-
+//
+//
 const int gemB_rxd_int_delay_vmereg          = gem_cfg_adr;
 const int gemB_rxd_int_delay_bitlo           = 4;
 const int gemB_rxd_int_delay_bithi           = 7;
 const int gemB_rxd_int_delay_default         = 0;
-
+//
+//
 const int decouple_gem_rxd_int_delay_vmereg  = gem_cfg_adr;
 const int decouple_gem_rxd_int_delay_bitlo   = 8;
 const int decouple_gem_rxd_int_delay_bithi   = 8;
 const int decouple_gem_rxd_int_delay_default = 0;
-
+//
+//
 const int gem_readout_mask_vmereg            = gem_cfg_adr;
 const int gem_readout_mask_bitlo             = 9;
 const int gem_readout_mask_bithi             = 12;
 const int gem_readout_mask_default           = 0xf;
-
+//
 //
 //////////////////////////////////////////////
 // Bit mapping for TMB Raw Hits
@@ -3902,10 +3963,6 @@ const int ALCT_CLCT_coincidence_trigger =  5;
 #define TMB_FPGA_PROG   0x4     // TMB Mezzanine FPGA + FPGA PROMs JTAG Chain
 #define TMB_USER_PROM   0x8     // TMB User PROMs JTAG Chain
 #define TMB_FPGA_USER   0xc     // TMB FPGA User JTAG Chain
-//
-#define TMB_JTAG_SRC    0x08    // Hardware Bootstrap Register JTAG Source Bit
-#define JTAG_SOFT_SRC   0x0     // JTAG Sourced by FPGA (TMB_ADR_USR_JTAG VME Register)
-#define JTAG_HARD_SRC   0x1     // JTAG Sourced by Bootstrap Register
 //
 #define ALCT_HARD_RESET 0x0100  // Hardware ALCT FPGA Hard Reset
 #define TMB_HARD_RESET  0x0200  // Hardware TMB FPGA Hard Reset
