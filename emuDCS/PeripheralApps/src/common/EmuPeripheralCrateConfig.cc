@@ -5517,13 +5517,14 @@ void EmuPeripheralCrateConfig::ChamberTests(xgi::Input * in, xgi::Output * out )
   *out << cgicc::form().set("method","GET").set("action",ScanOTMBFiberDelays) << std::endl ;
   *out << "Parametrize OTMB fiber scan settings:" << std::endl;
   *out << cgicc::br();
-  sprintf(buf,"%d",tmb);
+  sprintf(buf,"%d",10); // default value
   *out << cgicc::input().set("type","text").set("value",buf).set("name","sleep_time")<<std::endl;
+  sprintf(buf,"%d",100); // default value
   *out << "microseconds/bin"<<std::endl;
   *out << cgicc::input().set("type","text").set("value",buf).set("name","step_time")<<std::endl;
   *out << "picoseconds/step"<<std::endl;
   *out << cgicc::br();
-  *out << cgicc::input().set("type","submit").set("value","Scan GEM-TMB Delay") << std::endl ;
+  *out << cgicc::input().set("type","submit").set("value","Scan OTMB Link Phasers") << std::endl ;
   sprintf(buf,"%d",tmb);
   *out << cgicc::input().set("type","hidden").set("value",buf).set("name","tmb");
   sprintf(buf,"%d",dmb);
