@@ -5537,7 +5537,7 @@ void EmuPeripheralCrateConfig::ChamberTests(xgi::Input * in, xgi::Output * out )
   for(int i=0;i<2;i++) {
     *out << "gem" << i
          << "delay = " << MyTest[tmb][current_crate_].GetGEMrxPhaseResult(i)
-         << " ("  << thisTMB->GetReadGemRxClockResult() << ") "
+         << " ("  << thisTMB->GetReadGemRxClockDelay() << ") "
          <<"    posneg = " << MyTest[tmb][current_crate_].GetGEMrxPosnegResult(i)
          << " ("  << thisTMB->GetReadGemRxPosNeg() << ") " <<std::endl;
     *out << cgicc::br();
@@ -8330,7 +8330,7 @@ void EmuPeripheralCrateConfig::TMBFiberReset(xgi::Input * in, xgi::Output * out)
   //
   bool is_all = false;
   int fiber_num = 0;
-  int gem_num;
+  int gem_num=0;
   if (fiber == "all") {
     is_all = true;
   } else {

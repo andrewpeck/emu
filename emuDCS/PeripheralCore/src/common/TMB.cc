@@ -3858,7 +3858,7 @@ void TMB::GEMRawhits() {
 
     // read gem raw hits
 
-    unsigned short int status;
+    unsigned short status;
     uint16_t data;
 
     unsigned long long packet=0;
@@ -3908,11 +3908,11 @@ void TMB::GEMRawhits() {
     (*MyOutput_) << std::setfill(' ');
 
     // reset fifo to renable triggering
-    tmb_get_reg (gem_debug_fifo_ctrl_adr, &status);
+    status = (unsigned short) ReadRegister (gem_debug_fifo_ctrl_adr);
     status |= (0x1);
-    tmb_set_reg (gem_debug_fifo_ctrl_adr, status);
+    WriteRegister (gem_debug_fifo_ctrl_adr, status);
     status |= ~(0x1);
-    tmb_set_reg (gem_debug_fifo_ctrl_adr, status);
+    WriteRegister (gem_debug_fifo_ctrl_adr, status);
 }
 //
 void TMB::PrintTMBRawHits() {
