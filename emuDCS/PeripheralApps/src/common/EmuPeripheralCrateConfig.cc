@@ -5512,10 +5512,11 @@ void EmuPeripheralCrateConfig::ChamberTests(xgi::Input * in, xgi::Output * out )
   //*out << cgicc::table() << std::endl;
 
 
+  if (thisTMB->GetHardwareVersion() >= 2 && thisTMB->GetGemEnabled() ) {
   *out << cgicc::br();
   std::string ScanOTMBFiberDelays = toolbox::toString("/%s/ScanOTMBFiberDelays",getApplicationDescriptor()->getURN().c_str());
   *out << cgicc::form().set("method","GET").set("action",ScanOTMBFiberDelays) << std::endl ;
-  *out << "Parametrize OTMB fiber scan settings:" << std::endl;
+  *out << "OTMB Link Phaser Scan:" << std::endl;
   *out << cgicc::br();
   sprintf(buf,"%d",10); // default value
   *out << cgicc::input().set("type","text").set("value",buf).set("name","sleep_time")<<std::endl;
@@ -5583,6 +5584,7 @@ void EmuPeripheralCrateConfig::ChamberTests(xgi::Input * in, xgi::Output * out )
   *out << cgicc::input().set("type","text").set("value",buf).set("name","GEM_rxd_delay")<<std::endl;
   *out << cgicc::input().set("type","submit").set("value","Set GEM rxd int delay value") << std::endl ;
   *out << cgicc::form() << std::endl ;
+  } // end if GEM
   ////////////////////////////////////////
 
 
@@ -7843,6 +7845,7 @@ throw (xgi::exception::Exception) {
 
     //for the following three: first dimension: 0=gem;1=me1A;2=me1B. second dimension for posneg
     int errorcount[3][2][25];
+
     int center [3][2];
     int size   [3][2];
     int coarse_delay;
@@ -7893,6 +7896,7 @@ throw (xgi::exception::Exception) {
             // reset error count
             for (int i=0;i<3;i++)
                 errorcount[i][posneg][coarse_delay]=0;
+
             int cfeb0123_errors_vec[4];
             int cfeb456_errors_vec[3];
 
@@ -7910,7 +7914,7 @@ throw (xgi::exception::Exception) {
                 thisTMB->FirePhaser      ( phaser_gem_rxd_adr);
 
 
-                int cfeb=1;
+                bool cfeb=true;
                 if (cfeb) {
 
                     thisTMB->SetCfeb0123RxPosNeg     ( posneg);
@@ -7990,10 +7994,10 @@ throw (xgi::exception::Exception) {
 
         }
         for (int i=0; i<3; i++) {
-            center[i][posneg] = MyTest[tmb][current_crate_].me11_wraparound_best_center(                errorcount[i][posneg]);
+            center[i][posneg] = MyTest[tmb][current_crate_].me11_wraparound_best_center(                   errorcount[i][posneg]);
             size  [i][posneg] = MyTest[tmb][current_crate_].me11_window_width          (center[i][posneg], errorcount[i][posneg]);
         }
-        std::cout<<std::endl<<"for posneg "<<posneg
+        std::cout<<std::dec<<std::endl<<"for posneg "<<posneg
                 <<" best center for gem = " << center[0][posneg] << " width=" << size[0][posneg]<< std::endl
                 <<" best center for me1a= " << center[1][posneg] << " width=" << size[1][posneg]<< std::endl
                 <<" best center for me1b= " << center[2][posneg] << " width=" << size[2][posneg]<< std::endl;
@@ -8018,18 +8022,18 @@ throw (xgi::exception::Exception) {
          MyTest[tmb][current_crate_].SetGEMrxPosnegResult(i,best_posneg[0]);
     }
 
-    for (int i=0; i<4; i++) { // 4 CFEBs in ME1b
-         MyTest[tmb][current_crate_].SetCFEBrxPhaseResult(i,center[2][best_posneg[2]]);
-         MyTest[tmb][current_crate_].SetCFEBrxPosnegResult(i,best_posneg[2]);
-    }
-
     for (int i=0; i<3; i++) { // 3 CFEBs in ME1a
          MyTest[tmb][current_crate_].SetCFEBrxPhaseResult(i+4,center[1][best_posneg[1]]);
          MyTest[tmb][current_crate_].SetCFEBrxPosnegResult(i+4,best_posneg[1]);
     }
 
+    for (int i=0; i<4; i++) { // 4 CFEBs in ME1b
+         MyTest[tmb][current_crate_].SetCFEBrxPhaseResult(i,center[2][best_posneg[2]]);
+         MyTest[tmb][current_crate_].SetCFEBrxPosnegResult(i,best_posneg[2]);
+    }
+
     //Reverting back to original cfeb/gem delay values
-    thisTMB->SetCfeb456RxClockDelay(initial_cfeb0123_phase);
+    thisTMB->SetCfeb456RxClockDelay(initial_cfeb456_phase);
     thisTMB->SetCfeb456RxPosNeg(initial_cfeb456_posneg);
     thisTMB->WriteRegister(phaser_cfeb456_rxd_adr);
     thisTMB->FirePhaser(phaser_cfeb456_rxd_adr);
