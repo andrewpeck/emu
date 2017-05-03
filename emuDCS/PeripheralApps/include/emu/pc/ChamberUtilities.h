@@ -19,7 +19,7 @@ namespace emu {
   namespace pc {
 
 /**
-   Functions specific to a chamber which may use methods from several different core classes  
+   Functions specific to a chamber which may use methods from several different core classes
  */
 class ChamberUtilities {
   //
@@ -28,7 +28,7 @@ public:
   ChamberUtilities();
   virtual ~ChamberUtilities();
   //
-  inline void RedirectOutput(std::ostream * Output) { 
+  inline void RedirectOutput(std::ostream * Output) {
     //
     thisTMB->RedirectOutput(Output);
     thisDMB->RedirectOutput(Output);
@@ -60,10 +60,10 @@ public:
   //
   // clock phases...
   ///  CFEB -> TMB communication delays
-  enum CFEBTiming_scanType {normal_scan, me11b_scan, me11a_scan};  
+  enum CFEBTiming_scanType {normal_scan, me11b_scan, me11a_scan};
   void CFEBTiming();                           //default is normal_scan
   void CFEBTiming(CFEBTiming_scanType);
-  void CFEBTiming_with_Posnegs_simple_routine(int time_delay, int cfeb_num, unsigned int layers, unsigned int pattern, 
+  void CFEBTiming_with_Posnegs_simple_routine(int time_delay, int cfeb_num, unsigned int layers, unsigned int pattern,
 					      int halfstrip, bool print_data, int cfeb_clock_phase);
   void CFEBTiming_with_Posnegs(CFEBTiming_scanType);
   void CFEBTiming_without_Posnegs();
@@ -86,21 +86,21 @@ public:
   void Print_CFEB_Masks();
 
   std::string CFEBTiming_log_dir_;
-  template <size_t XS_per_CFEB>  int GetOutputXStrip(int cfeb, int input_xstrip); 
+  template <size_t XS_per_CFEB>  int GetOutputXStrip(int cfeb, int input_xstrip);
   inline int GetOutputHalfStrip(int cfeb, int input_halfstrip) {
     return GetOutputXStrip<32>(cfeb, input_halfstrip);
   }
   inline int GetOutputStrip(int cfeb, int input_strip) {
     return GetOutputXStrip<16>(cfeb, input_strip);
   }
-  template <size_t XS_per_CFEB>  int GetInputXStrip(int output_xstrip); 
+  template <size_t XS_per_CFEB>  int GetInputXStrip(int output_xstrip);
   inline int GetInputHalfStrip(int output_halfstrip) {
     return GetInputXStrip<32>(output_halfstrip);
   }
   inline int GetInputStrip(int output_strip) {
     return GetInputXStrip<16>(output_strip);
   }
-  template <size_t XS_per_CFEB> int GetInputCFEBByX(int output_xstrip); 
+  template <size_t XS_per_CFEB> int GetInputCFEBByX(int output_xstrip);
   int GetInputCFEBByHalfStrip(int output_halfstrip) {
     return GetInputCFEBByX<32>(output_halfstrip);
   }
@@ -111,10 +111,10 @@ public:
   //void DisableCCBL1A
   int * CFEBTiming_L1AWindowScan(bool print_data = true, bool print_clct = true);
   int CFEBHalfStripToTMBHalfStrip(int cfeb, int halfstrip);
-  
+
   void original_routine();
   void new_routine();
-  
+
   int tmb_l1a_delay;
   int ccb_l1a_delay;
 
@@ -122,7 +122,7 @@ public:
     int cfeb_pipeline_depth;
     float dac;
     float comp_thresh;
-    
+
     int clct_pattern_trig_en; //
     int clct_ext_trig_en;
     int tmb_allow_clct; //
@@ -134,18 +134,18 @@ public:
     int fifo_tbins; //
     int fifo_pretrig; //
     int fifo_no_hits_raw; //
-    
-    
+
+
     int tmb_internal_l1a;
     int ccb_ext_trig_delay;
     int tmb_l1a_delay;
     int cfeb_rx_posneg;
     int cfeb_rx_clock_delay;
-    
+
     int cfeb_clock_phase;
 
     int cfeb_mask;
-    
+
     inline CFEBTiming_Configuration():
       cfeb_pipeline_depth(0),
       dac(0),
@@ -169,7 +169,7 @@ public:
       cfeb_clock_phase(0),
       cfeb_mask(0x7f)
     {}
-    
+
     inline CFEBTiming_Configuration(const CFEBTiming_Configuration & o):
       cfeb_pipeline_depth(o.cfeb_pipeline_depth),
       dac(o.dac),
@@ -195,16 +195,16 @@ public:
     {}
   };
 
-  inline void CFEBTiming_PrintConfiguration(CFEBTiming_Configuration & config); 
+  inline void CFEBTiming_PrintConfiguration(CFEBTiming_Configuration & config);
 
-  inline bool CFEBTiming_CheckCLCT(int cfeb, unsigned int layer_mask, unsigned int pattern, unsigned int halfstrip); 
+  inline bool CFEBTiming_CheckCLCT(int cfeb, unsigned int layer_mask, unsigned int pattern, unsigned int halfstrip);
 
-  inline void CFEBTiming_ReadConfiguration(CFEBTiming_Configuration & config); 
+  inline void CFEBTiming_ReadConfiguration(CFEBTiming_Configuration & config);
 
-  inline bool CFEBTiming_CheckConfiguration(const CFEBTiming_Configuration & orig); 
+  inline bool CFEBTiming_CheckConfiguration(const CFEBTiming_Configuration & orig);
 
   void ConfigureTMB(const CFEBTiming_Configuration & config, int * cfeb_tof_delay);
-  inline void ConfigureTMB(const CFEBTiming_Configuration & config) {	  
+  inline void ConfigureTMB(const CFEBTiming_Configuration & config) {
     return ConfigureTMB(config, NULL);
   }
 
@@ -212,8 +212,8 @@ public:
   inline void CFEBTiming_ConfigureLevel(CFEBTiming_Configuration & config, int level) {
     return CFEBTiming_ConfigureLevel(config, level, false);
   }
-  inline void CFEBTiming_ConfigureLevel(CFEBTiming_Configuration & config) {     
-    return CFEBTiming_ConfigureLevel(config, -1, false); 
+  inline void CFEBTiming_ConfigureLevel(CFEBTiming_Configuration & config) {
+    return CFEBTiming_ConfigureLevel(config, -1, false);
   }
   //
   const static int CFEBPatterns[9][6];
@@ -227,7 +227,7 @@ public:
   /// Determine all the timing parameters needed to establish ALCT<->TMB communication
   void ALCT_TMB_Loopback();
   //
-  /// Find a "good enough" value of the alct_rx_clock_delay with alternating 1's and 0's sent from ALCT to TMB. 
+  /// Find a "good enough" value of the alct_rx_clock_delay with alternating 1's and 0's sent from ALCT to TMB.
   int  Find_alct_rx_with_ALCT_to_TMB_evenodd(int number_of_passes);
   //
   /// Find a "good enough" value of the alct_tx_clock_delay with alternating 1's and 0's looped back from TMB -> ALCT -> TMB.
@@ -303,7 +303,7 @@ public:
   int  FindALCT_L1A_delay(int min_delay, int max_delay); //set the min/max values by arguments... should go away...
   //
   // scans to check functionality of electronics
-  void ALCTChamberScan();  
+  void ALCTChamberScan();
   void CFEBChamberScan();
   void FindDistripHotChannels();
   //
@@ -344,8 +344,8 @@ public:
   void ALCT_phase_analysis(int array_to_analyze[25][25]);
   int window_analysis(int * data, const int length);
   int window_counter;
-  int DelayWhichGivesDesiredValue(float * vector_of_values_with_delay_index, 
-				  const int min_delay, const int max_delay, 
+  int DelayWhichGivesDesiredValue(float * vector_of_values_with_delay_index,
+				  const int min_delay, const int max_delay,
 				  int desired_value);
   void PrintHistogram(std::string label, int * histogram, int min, int max, int average);
   void PrintHistogram(std::string label, int * histogram, int min, int max, float average);
@@ -363,8 +363,8 @@ public:
     return inSpecialRegion(cfeb0tof, cfeb1tof, cfeb2tof, cfeb3tof, cfeb4tof,
 			   cfeb0rx , cfeb1rx , cfeb2rx , cfeb3rx , cfeb4rx ,
 			   cfeb0pn , cfeb1pn , cfeb2pn , cfeb3pn , cfeb4pn ,
-			   ChamberUtilities::normal_scan); 
-  }  
+			   ChamberUtilities::normal_scan);
+  }
   float determine_average_with_wraparound(int val1, int val2, int val3, int val4, int val5, const int max_val);
   float determine_average_with_wraparound(int val1, int val2, int val3, int val4, const int max_val);
   float special_region_function(float signed_rx);
@@ -378,8 +378,8 @@ public:
   //
   // Get and Set peripheral crate instances:
   inline void SetTMB(TMB * myTMB)   {
-    thisTMB = myTMB; alct = myTMB->alctController(); thisRAT_ = myTMB->getRAT(); 
-    int compile_type = thisTMB->GetTMBFirmwareCompileType(); 
+    thisTMB = myTMB; alct = myTMB->alctController(); thisRAT_ = myTMB->getRAT();
+    int compile_type = thisTMB->GetTMBFirmwareCompileType();
     is_me11_ = (compile_type == 0xc || compile_type == 0xd);
   }
 	//
@@ -423,10 +423,10 @@ public:
   //
   // Get parameters from test summary results (not xml parameters):
   inline int  GetCFEBrxPhaseTest(int CFEB) { return CFEBrxPhase_[CFEB] ; }
-  inline int  GetGEMrxPhaseDelay(int GEM) { return GEMrxPhaseDelay_[GEM][0] ; }
-  inline int  GetGEMrxPosnegDelay(int GEM) { return GEMrxPhaseDelay_[GEM][1] ; }
-  inline int  GetCFEBrxPhaseDelay(int CFEB) { return CFEBrxPhaseDelay_[CFEB][0] ; }
-  inline int  GetCFEBrxPosnegDelay(int CFEB) { return CFEBrxPhaseDelay_[CFEB][1] ; }
+  inline int  GetGEMrxPhaseResult(int GEM) { return GEMrxPhaseResult_[GEM] ; }
+  inline int  GetGEMrxPosnegResult(int GEM) { return GEMrxPosnegResult_[GEM] ; }
+  inline int  GetCFEBrxPhaseResult(int CFEB) { return CFEBrxPhaseResult_[CFEB] ; }
+  inline int  GetCFEBrxPosnegResult(int CFEB) { return CFEBrxPosnegResult_[CFEB] ; }
   inline int  GetCFEBrxPosnegTest(int CFEB){ return CFEBrxPosneg_[CFEB] ; }
   inline int  GetCFEBrxdIntDelayTest(int CFEB) { return cfeb_rxd_int_delay[CFEB] ; }
   inline int  GetALCTrxPhaseTest()         { return ALCTrxPhase_ ; }
@@ -456,19 +456,19 @@ public:
   inline float GetCfebDavScopeValue()       { return CfebDavScopeAverageValue_; }
   inline float GetAlctDavScopeValue()       { return AlctDavScopeAverageValue_; }
   //
-  inline float GetBestAverageAFFtoL1A()     { return best_average_aff_to_l1a_counter_; } 
-  inline float GetBestAverageALCTDAVScope() { return best_average_alct_dav_scope_; } 
-  inline float GetBestAverageCFEBDAVScope() { return best_average_cfeb_dav_scope_; } 
+  inline float GetBestAverageAFFtoL1A()     { return best_average_aff_to_l1a_counter_; }
+  inline float GetBestAverageALCTDAVScope() { return best_average_alct_dav_scope_; }
+  inline float GetBestAverageCFEBDAVScope() { return best_average_cfeb_dav_scope_; }
   //
   inline int  GetCFEBStripScan(int CFEB, int Strip) { return CFEBStripScan_[CFEB][Strip]; }
   inline int  GetALCTWireScan(int Wire)             { return ALCTWireScan_[Wire]; }
   //
   // Set the parameters from test summary file (not xml):
   inline void SetCFEBrxPhaseTest(int CFEB, int value) { CFEBrxPhase_[CFEB] = value ; }
-  inline void SetGEMrxPhaseDelay(int GEM, int value) { GEMrxPhaseDelay_[GEM][0]=value; }
-  inline void SetGEMrxPosnegDelay(int GEM, int value) { GEMrxPhaseDelay_[GEM][1] = value ; }
-  inline void SetCFEBrxPhaseDelay(int CFEB, int value) { CFEBrxPhaseDelay_[CFEB][0]=value; }
-  inline void SetCFEBrxPosnegDelay(int CFEB, int value) { CFEBrxPhaseDelay_[CFEB][1] = value ; }
+  inline void SetGEMrxPhaseResult(int GEM, int value) { GEMrxPhaseResult_[GEM]=value; }
+  inline void SetGEMrxPosnegResult(int GEM, int value) { GEMrxPosnegResult_[GEM] = value ; }
+  inline void SetCFEBrxPhaseResult(int CFEB, int value) { CFEBrxPhaseResult_[CFEB]=value; }
+  inline void SetCFEBrxPosnegResult(int CFEB, int value) { CFEBrxPosnegResult_[CFEB] = value ; }
   inline void SetALCTrxPhaseTest(int value)           { ALCTrxPhase_ = value ; }
   inline void SetALCTtxPhaseTest(int value)           { ALCTtxPhase_ = value ; }
   inline void SetAlctRxPosNegTest(int value)          { ALCTrxPosNeg_ = value ; }
@@ -502,7 +502,7 @@ private:
   bool use_measured_values_;
   int min_alct_l1a_delay_value_;
   int max_alct_l1a_delay_value_;
-  int min_tmb_l1a_delay_value_; 
+  int min_tmb_l1a_delay_value_;
   int max_tmb_l1a_delay_value_;
   int l1a_delay_increment_;
   int pause_at_each_setting_;
@@ -525,8 +525,10 @@ private:
   //
   int CFEBrxPhase_[7];
   int CFEBrxPosneg_[7];
-  int GEMrxPhaseDelay_[2][2];//for the second argument 0=phasedelay;1=posneg
-  int CFEBrxPhaseDelay_[7][2];
+  int GEMrxPhaseResult_[2];
+  int CFEBrxPhaseResult_[7];
+  int GEMrxPosnegResult_[2];
+  int CFEBrxPosnegResult_[7];
   int cfeb_rxd_int_delay[7];
   int ALCTtxPhase_;
   int ALCTrxPhase_;
