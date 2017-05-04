@@ -11121,6 +11121,7 @@ void EmuPeripheralCrateConfig::TMBUtils(xgi::Input * in, xgi::Output * out )
   *out << cgicc::form() << std::endl ;
   *out << cgicc::td();
   //
+  if (thisTMB->GetHardwareVersion() >= 2 && thisTMB->GetGemEnabled() ) {
   *out << cgicc::td().set("ALIGN","left");
   std::string GEMRawHits = toolbox::toString("/%s/GEMRawHits",getApplicationDescriptor()->getURN().c_str());
   *out << cgicc::form().set("method","GET").set("action",GEMRawHits) ;
@@ -11129,6 +11130,7 @@ void EmuPeripheralCrateConfig::TMBUtils(xgi::Input * in, xgi::Output * out )
   *out << cgicc::input().set("type","hidden").set("value",buf).set("name","tmb");
   *out << cgicc::form() << std::endl ;
   *out << cgicc::td();
+  }
   //
   *out << cgicc::td().set("ALIGN","left");
   std::string DisALCTTestPulse = toolbox::toString("/%s/DisableALCTTestPulse",getApplicationDescriptor()->getURN().c_str());
