@@ -684,7 +684,7 @@ void XMLParser::TMBParser(xercesc::DOMNode * pNode, Crate * theCrate, Chamber * 
         //
         //0x310
         if (fillInt ("gem_fifo_tbins"          , value)) { tmb_->SetGemFifoTbins         (value);}
-        if (fillInt ("fifo_pretrig"            , value)) { tmb_->SetGemFifoPreTrig       (value);}
+        if (fillInt ("gem_fifo_pretrig"        , value)) { tmb_->SetGemFifoPreTrig       (value);}
         if (fillInt ("gem_decouple"            , value)) { tmb_->SetGemDecoupleTbins     (value);}
         if (fillInt ("gem_read_enable"         , value)) { tmb_->SetGemReadEnable        (value);}
         if (fillInt ("gem_zero_supress_enable" , value)) { tmb_->SetGemZeroSupressEnable (value);}
@@ -692,7 +692,7 @@ void XMLParser::TMBParser(xercesc::DOMNode * pNode, Crate * theCrate, Chamber * 
         //0x312
         if (fillInt ("gemA_fifo_rxd_int_delay"    , value)) { tmb_->SetGemARxdIntDelay        (value);}
         if (fillInt ("gemB_fifo_rxd_int_delay"    , value)) { tmb_->SetGemBRxdIntDelay        (value);}
-        if (fillInt ("decouple_gem_rxd_int_delay" , value)) { tmb_->SetDecoupleGemRxdIntDelay (value);}
+        if (fillInt ("gem_decouple_rxd_int_delay" , value)) { tmb_->SetDecoupleGemRxdIntDelay (value);}
         if (fillInt ("gem_fifo_rxd_int_delay"     , value)) { tmb_->SetGemRxdIntDelay         (value);}
 
     }
