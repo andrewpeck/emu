@@ -2564,7 +2564,7 @@ public:
   inline int  GetReadGemGtxRxErrorCount(int gemNum) { return read_gem_gtx_rx_error_count_[gemNum]; }
 
   //-----------------------------------------------------------------------------
-  // 0x308 & 0x308A GEM Phasers
+  // 0x308 & 0x30A GEM Phasers
   //-----------------------------------------------------------------------------
 
   inline void SetGemARxClockDelay(int gemA_rx_clock_delay) {
