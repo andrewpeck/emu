@@ -509,6 +509,8 @@ public:
   void SetALCTPatternTrigger();
   void SetCLCTPatternTrigger();
   //
+  inline std::string GetLabel(){return label_;}            
+  //
   //  inline void SetHardwareVersion(int version) {hardware_version_ = version;} //in TMB constructor now
   inline int GetHardwareVersion() {return hardware_version_;}
   inline int GetGemEnabled() {return gem_enabled_;}
@@ -2800,6 +2802,8 @@ private:
   //
   Chamber * csc_;
   int tmb_idcode_[7];
+  /// chamber name
+  std::string label_;
   //
   // VME access methods which should never be called except from within TMB...
   // ucla_start was always called with a dev and a slot
